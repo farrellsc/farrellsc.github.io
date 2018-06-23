@@ -191,17 +191,6 @@ Percent|96
 CornorCase|empty input linked list
 Tricks|[concatenation](#concatenation)
 
-### 3.725. Split Linked List in Parts
-Param|Value
-:---:|:---:
-Input|linked list, number of parts
-Output|ListNode[]
-Solution|1st iteration calc list length & seg length; 2nd iteration split list
-TimeCost|O(n), n is size of input linked list
-Percent|100
-CornorCase|None
-Tricks|[stackedLoop](#stackedLoop)
-
 ### 3.206. Reversed Linked List
 Param|Value
 :---:|:---:
@@ -256,6 +245,17 @@ TimeCost|O(m+n), m,n are sizes of input linked lists
 Percent|86
 CornorCase|None
 Tricks|Stack: adding begins at tail
+
+### 3.725. Split Linked List in Parts
+Param|Value
+:---:|:---:
+Input|linked list, number of parts
+Output|ListNode[]
+Solution|1st iteration calc list length & seg length; 2nd iteration split list
+TimeCost|O(n), n is size of input linked list
+Percent|100
+CornorCase|None
+Tricks|[stackedLoop](#stackedLoop)
 
 ### 3.817. Linked List Components
 Param|Value
