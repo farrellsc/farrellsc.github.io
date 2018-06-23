@@ -105,6 +105,10 @@ public void swap(ListNode head){
 ---
 ## 3.Solutions
 
+|a|b|
+|:---:|:---:|
+|aa|bb|
+
 ### 21. Merge Two Sorted Lists
 |Param|Value|
 |:---:|:---:|
