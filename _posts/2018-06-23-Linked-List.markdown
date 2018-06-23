@@ -25,7 +25,7 @@ A linked list is a linear collection of data elements, whose order is not given 
 
 ---
 ## 2. Methods
-### <span id="reversing">2.1. Reversing</span>
+### <span id="reversing">2.1 Reversing</span>
 ```java
 public ListNode reverseList(ListNode head) {
     if (head == null) return null;
@@ -42,13 +42,13 @@ public ListNode reverseList(ListNode head) {
 }
 ```
 
-### <span id="deleting">2.2. Deleting</span>
+### <span id="deleting">2.2 Deleting</span>
 1. When pointer points to prev:  
 	- `prev = prev.next.next`;
 2. When pointer points to the node to delete: 
 	- `while (cur.next != null) {cur.val = cur.next.val; cur = cur.next}`
 
-### <span id="findCycle">2.3. Cycle Problems</span>
+### <span id="findCycle">2.3 Cycle Problems</span>
 ```java
 public boolean hasCycle(ListNode head) {
     if(head == null || head.next == null) return false;
@@ -67,7 +67,7 @@ public boolean hasCycle(ListNode head) {
 }
 ```
 
-### <span id="concatenation">2.4. Concatenation</span>
+### <span id="concatenation">2.4 Concatenation</span>
 Here it make two concatenations: new1 = l1+l2, new2 = l2+l1. So if there exists a node where l1 and l2 intersects, number of nodes before the node would be equal.  
 a1-a2-a3-a4
           \\
@@ -89,7 +89,7 @@ public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
 }
 ```
 
-### <span id="swapping"> 2.5. Swap</span>
+### <span id="swapping"> 2.5 Swap</span>
 ```java
 public void swap(ListNode head){
 	// here I just swap the first two nodes:
@@ -103,13 +103,11 @@ public void swap(ListNode head){
 ```
 
 ---
-## 3.Solutions
+## 3. Solutions
 
-|a|b|
-|:---:|:---:|
-|aa|bb|
 
-### 21. Merge Two Sorted Lists
+### 21 Merge Two Sorted Lists
+
 |Param|Value|
 |:---:|:---:|
 |Input|two sorted lists|
@@ -120,7 +118,8 @@ public void swap(ListNode head){
 |CornorCase|None|
 |Tricks|[miniCodeBlock](#miniCodeBlock): improved 20% after extracting a same sentence from if...else...|
 
-### 24. Swap Nodes in Pairs
+### 24 Swap Nodes in Pairs
+
 Param|Value
 :---:|:---:
 Input|linked list
@@ -131,7 +130,8 @@ Percent|86
 CornorCase|None
 Tricks|[swapping](#swapping)
 
-### 83. Remove Duplicates from Sorted List
+### 83 Remove Duplicates from Sorted List
+
 Param|Value
 :---:|:---:
 Input|linked list
@@ -142,7 +142,8 @@ Percent|95%
 CornorCase|empty linked list
 Tricks|None
 
-### 86. Partition List
+### 86 Partition List
+
 Param|Value
 :---:|:---:
 Input|linked list, parting number
@@ -153,7 +154,8 @@ Percent|83
 CornorCase|None
 Tricks|None
 
-### 141. Linked List Cycle
+### 141 Linked List Cycle
+
 Param|Value
 :---:|:---:
 Input|linked list
@@ -164,18 +166,20 @@ Percent|99%
 CornorCase|None
 Tricks|[findCycle](#findCycle)
 
-### 147. Insertion Sort List
+### 147 Insertion Sort List
+
 Param|Value
 :---:|:---:
 Input|linked list
 Output|sorted linked list
 Solution|pay attention to the modification to insertion sort algorithm
-TimeCost|$O(n^2)$
+TimeCost|O(n^2)
 Percent|97
 CornorCase|None
 Tricks|[stackedLoop](#stackedLoop); [insertionSortModification](#insertionSortModification)
 
-### 160. Intersection of Two Linked Lists
+### 160 Intersection of Two Linked Lists
+
 Param|Value
 :---:|:---:
 Input|two linked lists
@@ -186,18 +190,20 @@ Percent|96
 CornorCase|empty input linked list
 Tricks|[concatenation](#concatenation)
 
-### 206. Reversed Linked List
+### 206 Reversed Linked List
+
 Param|Value
 :---:|:---:
 Input|linked list
 Output|reversed linked list
 Solution|repeatedly move current head to tail list head. 
-TimeCost|$O(n)$, n is size of input linked list; 
+TimeCost|O(n), n is size of input linked list; 
 Percent|100% for non-recursive, 30% for recursive.
 CornorCase|empty linked list
 Tricks|[reversing](#reversing); [loopNoRecursion](#loopNoRecursion)
 
-### 234. Palindrome Linked List
+### 234 Palindrome Linked List
+
 Param|Value
 :---:|:---:
 Input|linked list
@@ -208,7 +214,8 @@ Percent|92%
 CornorCase|empty linked list
 Tricks|[reversing](#reversing)
 
-### 237. Delete Node in a Linked List
+### 237 Delete Node in a Linked List
+
 Param|Value
 :---:|:---:
 Input|Node in a linked list
@@ -219,7 +226,8 @@ Percent|100%
 CornorCase|None
 Tricks|[deleting](#deleting)
 
-### 328. Odd Even Linked List
+### 328 Odd Even Linked List
+
 Param|Value
 :---:|:---:
 Input|linked list
@@ -230,7 +238,8 @@ Percent|85
 CornorCase|None
 Tricks|None
 
-### 445. Add Two Numbers II
+### 445 Add Two Numbers II
+
 Param|Value
 :---:|:---:
 Input|two linked lists
@@ -241,7 +250,8 @@ Percent|86
 CornorCase|None
 Tricks|Stack: adding begins at tail
 
-### 725. Split Linked List in Parts
+### 725 Split Linked List in Parts
+
 Param|Value
 :---:|:---:
 Input|linked list, number of parts
@@ -252,7 +262,8 @@ Percent|100
 CornorCase|None
 Tricks|[stackedLoop](#stackedLoop)
 
-### 817. Linked List Components
+### 817 Linked List Components
+
 Param|Value
 :---:|:---:
 Input|linked list, selected nodes
@@ -265,11 +276,47 @@ Tricks|HashMap; [stackedLoop](#stackedLoop)
 
 
 ---
-## 4. Coding Tricks
-1. <span id="loopNoRecursion">Loop better than Recursion</span>: Using loop costs less than recursion.
-2. <span id="miniCodeBlock">Minimize Code Block</span>: Remember to minimize basic code blocks, could make huge difference on time cost without modyfing logic (\#21).
-3. <span id="stackedLoop">Stacked Loops</span>: stacked loops cost less than one big loops that handles multiple scenarios.
-4. <span id="insertionSortModification">Insertion Sort Modification</span>: one-line code speed up insertion sort:
+## 4 Coding Tricks
+
+### <span id="loopNoRecursion">4.1 Loop better than Recursion</span>
+Loops costs less than recursion.
+
+### <span id="miniCodeBlock">4.2 Minimize Code Block</span>
+Remember to minimize basic code blocks, could make huge difference on time cost without modyfing logic. The 1st one below costs 10% more than the second one.
+```java
+if (l1.val <= l2.val) {
+    l3.next = l1;
+    l1 = l1.next;
+    l3 = l3.next;
+} else {
+    l3.next = l2;
+    l2 = l2.next;
+	l3 = l3.next;
+}
+```
+```java
+if (l1.val <= l2.val) {
+    l3.next = l1;
+    l1 = l1.next;
+} else {
+    l3.next = l2;
+    l2 = l2.next;
+}
+l3 = l3.next;
+```
+
+### <span id="stackedLoop">4.3 Stacked Loops</span>
+Stacked loops cost less than one big loops that handles multiple scenarios.
+```java
+for(int i=0; i<k; i++, mod--){
+    do_something();
+    for(int j=0; some_bar(); j++) root = root.next;
+    do_something()
+}
+```
+
+### <span id="insertionSortModification">4.4 Insertion Sort Modification</span>
+One-line code speed up insertion sort:
 ```java
 while(leftPtr<nums.length){
 	if (nums[leftPtr] > nums[rightPtr]) leftPtr = 0;	// speed uuup
