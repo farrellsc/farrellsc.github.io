@@ -104,28 +104,19 @@ public void swap(ListNode head){
 
 ---
 ## 3.Solutions
-Param|Value
-:---:|:---:
-Input|
-Output|
-Solution|
-TimeCost|
-Percent|
-CornorCase|
-Tricks|
 
-### 3.21. Merge Two Sorted Lists
-Param|Value
-:---:|:---:
-Input|two sorted lists
-Output|one merged sorted list
-Solution|two pointers iteration
-TimeCost|O(m+n), m,n are sizes of two input lists.
-Percent|95%
-CornorCase|None
-Tricks|[miniCodeBlock](#miniCodeBlock): improved 20% after extracting a same sentence from if...else...
+### 21. Merge Two Sorted Lists
+|Param|Value|
+|:---:|:---:|
+|Input|two sorted lists|
+|Output|one merged sorted list|
+|Solution|two pointers iteration|
+|TimeCost|O(m+n), m,n are sizes of two input lists.|
+|Percent|95%|
+|CornorCase|None|
+|Tricks|[miniCodeBlock](#miniCodeBlock): improved 20% after extracting a same sentence from if...else...|
 
-### 3.24. Swap Nodes in Pairs
+### 24. Swap Nodes in Pairs
 Param|Value
 :---:|:---:
 Input|linked list
@@ -136,7 +127,7 @@ Percent|86
 CornorCase|None
 Tricks|[swapping](#swapping)
 
-### 3.83. Remove Duplicates from Sorted List
+### 83. Remove Duplicates from Sorted List
 Param|Value
 :---:|:---:
 Input|linked list
@@ -147,7 +138,7 @@ Percent|95%
 CornorCase|empty linked list
 Tricks|None
 
-### 3.86. Partition List
+### 86. Partition List
 Param|Value
 :---:|:---:
 Input|linked list, parting number
@@ -158,7 +149,7 @@ Percent|83
 CornorCase|None
 Tricks|None
 
-### 3.141. Linked List Cycle
+### 141. Linked List Cycle
 Param|Value
 :---:|:---:
 Input|linked list
@@ -169,7 +160,7 @@ Percent|99%
 CornorCase|None
 Tricks|[findCycle](#findCycle)
 
-### 3.147. Insertion Sort List
+### 147. Insertion Sort List
 Param|Value
 :---:|:---:
 Input|linked list
@@ -180,7 +171,7 @@ Percent|97
 CornorCase|None
 Tricks|[stackedLoop](#stackedLoop); [insertionSortModification](#insertionSortModification)
 
-### 3.160. Intersection of Two Linked Lists
+### 160. Intersection of Two Linked Lists
 Param|Value
 :---:|:---:
 Input|two linked lists
@@ -191,7 +182,7 @@ Percent|96
 CornorCase|empty input linked list
 Tricks|[concatenation](#concatenation)
 
-### 3.206. Reversed Linked List
+### 206. Reversed Linked List
 Param|Value
 :---:|:---:
 Input|linked list
@@ -202,7 +193,7 @@ Percent|100% for non-recursive, 30% for recursive.
 CornorCase|empty linked list
 Tricks|[reversing](#reversing); [loopNoRecursion](#loopNoRecursion)
 
-### 3.234. Palindrome Linked List
+### 234. Palindrome Linked List
 Param|Value
 :---:|:---:
 Input|linked list
@@ -213,7 +204,7 @@ Percent|92%
 CornorCase|empty linked list
 Tricks|[reversing](#reversing)
 
-### 3.237. Delete Node in a Linked List
+### 237. Delete Node in a Linked List
 Param|Value
 :---:|:---:
 Input|Node in a linked list
@@ -224,7 +215,7 @@ Percent|100%
 CornorCase|None
 Tricks|[deleting](#deleting)
 
-### 3.328. Odd Even Linked List
+### 328. Odd Even Linked List
 Param|Value
 :---:|:---:
 Input|linked list
@@ -235,7 +226,7 @@ Percent|85
 CornorCase|None
 Tricks|None
 
-### 3.445. Add Two Numbers II
+### 445. Add Two Numbers II
 Param|Value
 :---:|:---:
 Input|two linked lists
@@ -246,7 +237,7 @@ Percent|86
 CornorCase|None
 Tricks|Stack: adding begins at tail
 
-### 3.725. Split Linked List in Parts
+### 725. Split Linked List in Parts
 Param|Value
 :---:|:---:
 Input|linked list, number of parts
@@ -257,7 +248,7 @@ Percent|100
 CornorCase|None
 Tricks|[stackedLoop](#stackedLoop)
 
-### 3.817. Linked List Components
+### 817. Linked List Components
 Param|Value
 :---:|:---:
 Input|linked list, selected nodes
@@ -278,8 +269,8 @@ Tricks|HashMap; [stackedLoop](#stackedLoop)
 ```java
 while(leftPtr<nums.length){
 	if (nums[leftPtr] > nums[rightPtr]) leftPtr = 0;	// speed uuup
-	find insertion pos;
-	insert...
+	find_insertion_pos();
+	insert();
 }
 ```
 
