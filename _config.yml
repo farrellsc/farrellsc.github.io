@@ -1,9 +1,9 @@
 # Site settings
 title: Farrell's Blog
 SEOTitle: Farrell's Blog
-header-img: img/home-bg-farrell.jpg
+header-img: img/home-bg.jpg
 email: zhou.zhuang.farrell@gmail.com
-description: "So we beat on, boats against the current, borne back ceaselessly into the green light."
+description: ""
 keyword: ""
 url: "http://zhouzhuang97.me"              # your host, for absolute URL
 baseurl: ""         
