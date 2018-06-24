@@ -135,7 +135,7 @@ Same as \# 445
 ### 19 Remove Nth Node From End of List
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|linked list, n
 Output|linked list with the nth node from behind removed
 Solution|2 pointers, one faster than another by n steps, loop over linked list so slow pointer would point to the node to delete
@@ -146,20 +146,20 @@ Tricks|[deleting](#deleting); [twoPointers](#twoPointers)
 
 ### 21 Merge Two Sorted Lists
 
-|Param|Value|
-|:---:|:---:|
-|Input|two sorted lists|
-|Output|one merged sorted list|
-|Solution|two pointers iteration|
-|TimeCost|O(m+n), m,n are sizes of two input lists.|
-|Percent|95%|
-|CornorCase|None|
-|Tricks|[miniCodeBlock](#miniCodeBlock): improved 20% after extracting a same sentence from if...else...|
+Param|Value
+:---:|:---
+Input|two sorted lists
+Output|one merged sorted list
+Solution|two pointers iteration
+TimeCost|O(m+n), m,n are sizes of two input lists.
+Percent|95%
+CornorCase|None
+Tricks|[miniCodeBlock](#miniCodeBlock): improved 20% after extracting a same sentence from if...else...
 
 ### 23 Merge k Sorted Lists
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|n sorted lists
 Output|one merged & sorted linked list
 Solution|1. PriorityQueue; 2. MergeSort
@@ -171,7 +171,7 @@ Tricks|[ComparatorCompare](#ComparatorCompare)
 ### 24 Swap Nodes in Pairs
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|linked list
 Output|swapped linked list
 Solution|loop over linked list, swap next 2 nodes, then move 2 steps forward
@@ -183,7 +183,7 @@ Tricks|[swapping](#swapping)
 ### 25 Reverse Nodes in k-Group
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|linked list
 Output|k-grouped reversed list
 Solution|take k steps at a time, add reversed sublist to result
@@ -195,7 +195,7 @@ Tricks|[swapping](#swapping)
 ### 61 Rotate List
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|linked lists, rotating point k
 Output|rotated linked list
 Solution|1st iteration count list length; calc new start pos, link tail to start; 2nd iteration find new start, add null, return
@@ -207,7 +207,7 @@ Tricks|None
 ### 82 Remove Duplicates from Sorted List II
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|linked list
 Output|linked list with all duplicate numbers removed
 Solution|loop over, when locating duplicates use inner loop to jump over
@@ -219,7 +219,7 @@ Tricks|[stackedLoop](#stackedLoop)
 ### 83 Remove Duplicates from Sorted List
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|linked list
 Output|linked list without duplicates
 Solution|one-time loop with hashmap
@@ -231,7 +231,7 @@ Tricks|None
 ### 86 Partition List
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|linked list, parting number
 Output|linked list parted by number, lesser number in the left, bigger number in the right with original order preserved
 Solution|as insertion sort
@@ -243,7 +243,7 @@ Tricks|[insertion](#insertion)
 ### 92 Reverse Linked List II
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|linked list, m, n
 Output|linked list with the mth-nth nodes reversed
 Solution|tag m-1 th node, move m-nth node to m pos
@@ -255,7 +255,7 @@ Tricks|[insertion](#insertion)
 ### 109 Convert Sorted List to Binary Search Tree
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|sorted linked list
 Output|BST
 Solution|recursively building BST, find middle by 2 ptrs
@@ -267,7 +267,7 @@ Tricks|[twoPointers](#twoPointers)
 ### 138 Copy List with Random Pointer
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|linked list with random pointers
 Output|copied linked list
 Solution|1st iteration: copy nodes, link them after their prototype; 2nd iteration: adjust random links of copied nodes; 3rd iteration: seperate copied list from original list
@@ -279,7 +279,7 @@ Tricks|[useListSelf](#useListSelf)
 ### 141 Linked List Cycle
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|linked list
 Output|boolean: cycled or not
 Solution|two pointers, one move 1 step at a time; the other move 2 steps at a time. If in (size) iterations they never met, no cycle exists
@@ -291,7 +291,7 @@ Tricks|[findCycle](#findCycle)
 ### 142 Linked List Cycle II
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|Linked List with Loop
 Output|The Node where the loop begins
 Solution|first use \# 141 to find meeting point, set as ptr1; set ptr2 at head; proceed ptr1 and ptr2 each by 1 step each time, their meeting point is the begin of the loop
@@ -303,7 +303,7 @@ Tricks| Math :-)
 ### 143 Reorder List
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|linked list
 Output|l1 -> ln -> l2 -> ln-1 -> l3 -> ln-2 -> ...
 Solution|1st iteration find middle, then reverse latter half; 2nd half iteration insert latter half into front half
@@ -315,7 +315,7 @@ Tricks|[insertion](#insertion); [twoPointers](#twoPointers)
 ### 147 Insertion Sort List
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|linked list
 Output|sorted linked list
 Solution|pay attention to the modification to insertion sort algorithm
@@ -327,7 +327,7 @@ Tricks|[stackedLoop](#stackedLoop); [insertionSortModification](#insertionSortMo
 ### 148 Sort List
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|linked list
 Output|sorted linked list
 Solution|merge sort, since it builds sorted list from bottom to top. use one iteration to find middle each time, costs O(n)
@@ -339,7 +339,7 @@ Tricks|None
 ### 160 Intersection of Two Linked Lists
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|two linked lists
 Output|intersection
 Solution|construct two new linked lists: l1+l2 and l2+l1, if intersection exists, it would show in these two linked lists.
@@ -355,7 +355,7 @@ same as \# 82, \# 83
 ### 206 Reversed Linked List
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|linked list
 Output|reversed linked list
 Solution|repeatedly move current head to tail list head. 
@@ -367,7 +367,7 @@ Tricks|[reversing](#reversing); [loopNoRecursion](#loopNoRecursion)
 ### 234 Palindrome Linked List
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|linked list
 Output|boolean, whether linked list is palindrome
 Solution|reverse first half of linked list, compare it to second half
@@ -379,7 +379,7 @@ Tricks|[reversing](#reversing)
 ### 237 Delete Node in a Linked List
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|Node in a linked list
 Output|Delete current node
 Solution|loop over the remaining nodes, shifting all values backward by one position.
@@ -391,7 +391,7 @@ Tricks|[deleting](#deleting)
 ### 328 Odd Even Linked List
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|linked list
 Output|1th-3th-5th-...-2th-4th-6th-...
 Solution|move odd indexed nodes to front
@@ -403,7 +403,7 @@ Tricks|[insertion](#insertion)
 ### 445 Add Two Numbers II
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|two linked lists
 Output|add numbers presented by inputs, return a linked list representing the sum
 Solution|put input linked list units into stack, then perform adding
@@ -415,7 +415,7 @@ Tricks|Stack: adding begins at tail
 ### 725 Split Linked List in Parts
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|linked list, number of parts
 Output|ListNode[]
 Solution|1st iteration calc list length & seg length; 2nd iteration split list
@@ -427,7 +427,7 @@ Tricks|[stackedLoop](#stackedLoop)
 ### 817 Linked List Components
 
 Param|Value
-:---:|:---:
+:---:|:---
 Input|linked list, selected nodes
 Output|connected component number
 Solution|loop over linked list, component++ when `curNode in map && curNode.next not in map`
