@@ -4,7 +4,7 @@ title:      "Linked List"
 subtitle:   "LeetCode Review 1"
 date:       2018-06-22 12:00:00
 author:     "Farrell"
-header-img: "img/leetcode-bg.jpg"
+header-img: "img/bg3.jpg"
 catalog: true
 tags:
     - Leetcode
@@ -22,6 +22,7 @@ A linked list is a linear collection of data elements, whose order is not given 
      ListNode(int x) { val = x; }
  }
 ```
+A key feature of linked list is that with linked list, we access data by relative positions. Relative positions prevents us from knowing in advance the accurate position of an element, but it better preserves the correlation between data pieces. When dealing with linked list in which there are complex node correlations, our best chance is that we preserve the original linked list and add/remove/seperate elements from it.
 
 ---
 ## 2. Methods
@@ -48,7 +49,17 @@ public ListNode reverseList(ListNode head) {
 2. When pointer points to the node to delete: 
 	- `while (cur.next != null) {cur.val = cur.next.val; cur = cur.next}`
 
-### <span id="findCycle">2.3 Cycle Problems</span>
+### <span id="insertion"> 2.3 Insertion</span>
+```java
+public boolean insertion(ListNode insert_prev, ListNode target_prev) {
+    ListNode tmp = target_prev.next.next;
+    target_prev.next.next = insert_prev.next;
+    insert_prev.next = target_prev.next;
+    target_prev.next = tmp;
+}
+```
+
+### <span id="findCycle">2.4 Cycle Problems</span>
 ```java
 public boolean hasCycle(ListNode head) {
     if(head == null || head.next == null) return false;
@@ -67,13 +78,9 @@ public boolean hasCycle(ListNode head) {
 }
 ```
 
-### <span id="concatenation">2.4 Concatenation</span>
+### <span id="concatenation">2.5 Concatenation</span>
 Here it make two concatenations: new1 = l1+l2, new2 = l2+l1. So if there exists a node where l1 and l2 intersects, number of nodes before the node would be equal.  
-a1-a2-a3-a4
-          \\
-     b1-b2-c1-c2  
-a1-a2-a3-a4-c1-c2-b1-b2-c1\*-c2  
-b1-b2-c1-c2-a1-a2-a3-a4-c1\*-c2  
+![](/img/in-post/2018-06-23-Linked-List/1.png)
 
 ```java
 public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
@@ -89,7 +96,7 @@ public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
 }
 ```
 
-### <span id="swapping"> 2.5 Swap</span>
+### <span id="swapping"> 2.6 Swap</span>
 ```java
 public void swap(ListNode head){
 	// here I just swap the first two nodes:
@@ -102,9 +109,40 @@ public void swap(ListNode head){
 }
 ```
 
+### <span id="twoPointers"> 2.7 Two Pointers</span>
+```java
+public ListNode findKthElem(ListNode head, int k) {
+    ListNode fast = head;
+    ListNode slow = head;
+    for(int i=0; i<k; i++) fast = fast.next;
+    while (fast != null) {
+        fast = fast.next;
+        slow = slow.next;
+    }
+    return slow;
+}
+```
+
+### <span id="useListSelf"> 2.8 Use Linked List Itself</span>
+Perform actions on the structure of the linked list to reach your purpose.
+
 ---
 ## 3. Solutions
 
+### 2 Add Two Numbers
+Same as \# 445
+
+### 19 Remove Nth Node From End of List
+
+Param|Value
+:---:|:---:
+Input|linked list, n
+Output|linked list with the nth node from behind removed
+Solution|2 pointers, one faster than another by n steps, loop over linked list so slow pointer would point to the node to delete
+TimeCost|O(n), n is size of input linked list
+Percent|100
+CornorCase|None
+Tricks|[deleting](#deleting); [twoPointers](#twoPointers)
 
 ### 21 Merge Two Sorted Lists
 
@@ -118,6 +156,18 @@ public void swap(ListNode head){
 |CornorCase|None|
 |Tricks|[miniCodeBlock](#miniCodeBlock): improved 20% after extracting a same sentence from if...else...|
 
+### 23 Merge k Sorted Lists
+
+Param|Value
+:---:|:---:
+Input|n sorted lists
+Output|one merged & sorted linked list
+Solution|1. PriorityQueue; 2. MergeSort
+TimeCost|1. 2nlogn; 2. nlogn
+Percent|1. 67
+CornorCase|empty ListNode[]; null whithin ListNode[]
+Tricks|[ComparatorCompare](#ComparatorCompare)
+
 ### 24 Swap Nodes in Pairs
 
 Param|Value
@@ -129,6 +179,42 @@ TimeCost|O(n), n is size of input linked list
 Percent|86
 CornorCase|None
 Tricks|[swapping](#swapping)
+
+### 25 Reverse Nodes in k-Group
+
+Param|Value
+:---:|:---:
+Input|linked list
+Output|k-grouped reversed list
+Solution|take k steps at a time, add reversed sublist to result
+TimeCost|O(n)
+Percent|99
+CornorCase|None
+Tricks|[swapping](#swapping)
+
+### 61 Rotate List
+
+Param|Value
+:---:|:---:
+Input|linked lists, rotating point k
+Output|rotated linked list
+Solution|1st iteration count list length; calc new start pos, link tail to start; 2nd iteration find new start, add null, return
+TimeCost|2n
+Percent|96
+CornorCase|k==0; head==null; k>list.length; huge k
+Tricks|None
+
+### 82 Remove Duplicates from Sorted List II
+
+Param|Value
+:---:|:---:
+Input|linked list
+Output|linked list with all duplicate numbers removed
+Solution|loop over, when locating duplicates use inner loop to jump over
+TimeCost|O(n), n is size of input linked list
+Percent|100
+CornorCase|None
+Tricks|[stackedLoop](#stackedLoop)
 
 ### 83 Remove Duplicates from Sorted List
 
@@ -152,7 +238,43 @@ Solution|as insertion sort
 TimeCost|O(n)
 Percent|83
 CornorCase|None
-Tricks|None
+Tricks|[insertion](#insertion)
+
+### 92 Reverse Linked List II
+
+Param|Value
+:---:|:---:
+Input|linked list, m, n
+Output|linked list with the mth-nth nodes reversed
+Solution|tag m-1 th node, move m-nth node to m pos
+TimeCost|O(n)
+Percent|97
+CornorCase|None
+Tricks|[insertion](#insertion)
+
+### 109 Convert Sorted List to Binary Search Tree
+
+Param|Value
+:---:|:---:
+Input|sorted linked list
+Output|BST
+Solution|recursively building BST, find middle by 2 ptrs
+TimeCost|O(nlogn)
+Percent|99%
+CornorCase|empty linked list
+Tricks|[twoPointers](#twoPointers)
+
+### 138 Copy List with Random Pointer
+
+Param|Value
+:---:|:---:
+Input|linked list with random pointers
+Output|copied linked list
+Solution|1st iteration: copy nodes, link them after their prototype; 2nd iteration: adjust random links of copied nodes; 3rd iteration: seperate copied list from original list
+TimeCost|3n
+Percent|99%
+CornorCase|None
+Tricks|[useListSelf](#useListSelf)
 
 ### 141 Linked List Cycle
 
@@ -166,6 +288,30 @@ Percent|99%
 CornorCase|None
 Tricks|[findCycle](#findCycle)
 
+### 142 Linked List Cycle II
+
+Param|Value
+:---:|:---:
+Input|Linked List with Loop
+Output|The Node where the loop begins
+Solution|first use \# 141 to find meeting point, set as ptr1; set ptr2 at head; proceed ptr1 and ptr2 each by 1 step each time, their meeting point is the begin of the loop
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks| Math :-)
+
+### 143 Reorder List
+
+Param|Value
+:---:|:---:
+Input|linked list
+Output|l1 -> ln -> l2 -> ln-1 -> l3 -> ln-2 -> ...
+Solution|1st iteration find middle, then reverse latter half; 2nd half iteration insert latter half into front half
+TimeCost|1.5n
+Percent|96%
+CornorCase|empty linked list
+Tricks|[insertion](#insertion); [twoPointers](#twoPointers)
+
 ### 147 Insertion Sort List
 
 Param|Value
@@ -176,7 +322,19 @@ Solution|pay attention to the modification to insertion sort algorithm
 TimeCost|O(n^2)
 Percent|97
 CornorCase|None
-Tricks|[stackedLoop](#stackedLoop); [insertionSortModification](#insertionSortModification)
+Tricks|[stackedLoop](#stackedLoop); [insertionSortModification](#insertionSortModification); [insertion](#insertion)
+
+### 148 Sort List
+
+Param|Value
+:---:|:---:
+Input|linked list
+Output|sorted linked list
+Solution|merge sort, since it builds sorted list from bottom to top. use one iteration to find middle each time, costs O(n)
+TimeCost|O(nlogn)
+Percent|91
+CornorCase|None
+Tricks|None
 
 ### 160 Intersection of Two Linked Lists
 
@@ -189,6 +347,10 @@ TimeCost|O(m+n), m,n are sizes of two input linked list
 Percent|96
 CornorCase|empty input linked list
 Tricks|[concatenation](#concatenation)
+
+### 203 Remove Linked List Elements
+
+same as \# 82, \# 83
 
 ### 206 Reversed Linked List
 
@@ -236,7 +398,7 @@ Solution|move odd indexed nodes to front
 TimeCost|O(n), n is size of input linked list
 Percent|85
 CornorCase|None
-Tricks|None
+Tricks|[insertion](#insertion)
 
 ### 445 Add Two Numbers II
 
@@ -325,3 +487,8 @@ while(leftPtr<nums.length){
 }
 ```
 
+### <span id="MINMAX_VALUE"> 4.5 Integer MIN MAX cost</span>
+`Integer.MIN_VALUE` & `MAX_VALUE` cost 3ms. So when initializing numbers use 0 unless necessary.
+
+### <span id="ComparatorCompare"> 4.6 Comparator Compare</span>
+in `Comparator::compare()`, returning -1/0/1 would be faster than returning integer diffs
