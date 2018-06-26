@@ -11,7 +11,7 @@ tags:
     - Linked List
 ---
 
-> Problems on Linked List structures mostly do not involve other tools/data structures, thus making them a good start for my review.
+> Starred Problems: 23, 19
 
 ## 1. Data Structure
 A linked list is a linear collection of data elements, whose order is not given by their physical placement in memory. Instead, each element points to the next.  
@@ -22,7 +22,7 @@ A linked list is a linear collection of data elements, whose order is not given 
      ListNode(int x) { val = x; }
  }
 ```
-A key feature of linked list is that with linked list, we access data by relative positions. Relative positions prevents us from knowing in advance the accurate position of an element, but it better preserves the correlation between data pieces. When dealing with linked list in which there are complex node correlations, our best chance is that we preserve the original linked list and add/remove/seperate elements from it.
+A key feature of linked list is that with linked list, we access data by relative positions. Relative positions prevents us from knowing in advance the accurate position of an element, but it better preserves the correlation between data pieces (thus linked list problems also have few cornor cases). When dealing with linked list in which there are complex node correlations, our best chance is that we preserve the original linked list and add/remove/seperate elements from it.
 
 ---
 ## 2. Methods
@@ -60,6 +60,7 @@ public boolean insertion(ListNode insert_prev, ListNode target_prev) {
 ```
 
 ### <span id="findCycle">2.4 Cycle Problems</span>
+to find out whether there is a cycle: fast casing slow, timecost O(n)
 ```java
 public boolean hasCycle(ListNode head) {
     if(head == null || head.next == null) return false;
@@ -77,6 +78,7 @@ public boolean hasCycle(ListNode head) {
     return false;
 }
 ```
+to index the cycle starting node, use another slow from head after the first slow meets fast
 
 ### <span id="concatenation">2.5 Concatenation</span>
 Here it make two concatenations: new1 = l1+l2, new2 = l2+l1. So if there exists a node where l1 and l2 intersects, number of nodes before the node would be equal.  
@@ -109,9 +111,22 @@ public void swap(ListNode head){
 }
 ```
 
-### <span id="twoPointers"> 2.7 Two Pointers</span>
+### <span id="indexing"> 2.7 Indexing</span>
+Two pointers are used for indexing. The most frequent usage is find middle (as follows);  
 ```java
-public ListNode findKthElem(ListNode head, int k) {
+public ListNode findMiddle(ListNode head, int k) {
+    ListNode fast = head;
+    ListNode slow = head;
+    while (fast != null && fast.next != null) {
+        fast = fast.next.next;
+        slow = slow.next;
+    }
+    return slow;
+}
+```
+and indexing from the end:
+```java
+public ListNode findKthFromEnd(ListNode head, int k) {
     ListNode fast = head;
     ListNode slow = head;
     for(int i=0; i<k; i++) fast = fast.next;
@@ -123,7 +138,12 @@ public ListNode findKthElem(ListNode head, int k) {
 }
 ```
 
-### <span id="useListSelf"> 2.8 Use Linked List Itself</span>
+### <span id="sorting"> 2.8 Linked List Sorting</span>
+
+insertion sort
+merge sort
+
+### <span id="useListSelf"> 2.9 Use Linked List Itself</span>
 Perform actions on the structure of the linked list to reach your purpose.
 
 ---
@@ -142,7 +162,7 @@ Solution|2 pointers, one faster than another by n steps, loop over linked list s
 TimeCost|O(n), n is size of input linked list
 Percent|100
 CornorCase|None
-Tricks|[deleting](#deleting); [twoPointers](#twoPointers)
+Tricks|[deleting](#deleting); [indexing](#indexing)
 
 ### 21 Merge Two Sorted Lists
 
@@ -262,7 +282,7 @@ Solution|recursively building BST, find middle by 2 ptrs
 TimeCost|O(nlogn)
 Percent|99%
 CornorCase|empty linked list
-Tricks|[twoPointers](#twoPointers)
+Tricks|[indexing](#indexing)
 
 ### 138 Copy List with Random Pointer
 
@@ -310,7 +330,7 @@ Solution|1st iteration find middle, then reverse latter half; 2nd half iteration
 TimeCost|1.5n
 Percent|96%
 CornorCase|empty linked list
-Tricks|[insertion](#insertion); [twoPointers](#twoPointers)
+Tricks|[insertion](#insertion); [indexing](#indexing)
 
 ### 147 Insertion Sort List
 

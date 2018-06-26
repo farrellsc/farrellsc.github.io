@@ -1,0 +1,314 @@
+---
+layout:     post
+title:      "NLP"
+subtitle:   "Stanford 224"
+date:       2018-06-25 12:00:00
+author:     "Farrell"
+header-img: "img/bg3.jpg"
+catalog: true
+tags:
+    - AI
+    - NLP
+---
+
+> previous notes
+
+# NLP
+
+## 1. Trivial Methods
+1. WordNet: contains synonym and hypernyms
+2. One-hot encoding
+
+## 2. Dependency Parsing
+### 2.1 Syntactic Structure
+#### 2.1.1 Constituency
+Phrase	structure	organizes	words	into	nested	constituents. Represents grammar with context-free grammars (CFGs) rules.
+![](/img/in-post/2018-06-25-stanford224-NLP/1527298572434.png)
+
+#### 2.1.2 Dependency
+Dependency structure shows which words depend on (modify or are arguments of) which other words.
+- Determiners, adjectives, and verbs modify nouns
+- We will also treat prepositions as modifying nouns
+- The prepositional phrases are modifying the main noun phrase
+- The main noun phrase is an argument of "look”
+![](/img/in-post/2018-06-25-stanford224-NLP/1527298689501.png)
+
+#### 2.1.3 Attachment Ambiguities
+The method that we attach various constituents.
+![](/img/in-post/2018-06-25-stanford224-NLP/1527299147434.png)
+
+#### 2.1.4 Annotated Data
+Build grammar templates, then map sentences onto it.
+![](/img/in-post/2018-06-25-stanford224-NLP/1527299774114.png)
+
+### 2.2 Dependency Grammar
+to be continued...
+
+## 3. Word2Vec
+**Core	idea:	A	word’s	meaning	is	given	by	the	words	that	frequently	appear	close-by**
+### 3.1 Model & Loss & Solving
+#### 3.1.1 Model
+![](/img/in-post/2018-06-25-stanford224-NLP/1527125758764.png)
+#### 3.1.2 Loss
+**Loss Function**:
+![](/img/in-post/2018-06-25-stanford224-NLP/1527125842898.png)
+**Objective Function**:
+![](/img/in-post/2018-06-25-stanford224-NLP/1527125862130.png)
+where
+![](/img/in-post/2018-06-25-stanford224-NLP/1527126137807.png)
+and 
+![](/img/in-post/2018-06-25-stanford224-NLP/1527126283214.png)
+#### 3.1.3 Solving
+Apply gradiant Descent on Objective Function
+
+### 3.2 Detailed Implementations
+Both used for easier optimization.
+#### 3.2.1 Skip-gram
+**Core Idea**: Predict surrounding single words from center word (as introduced above)
+![](/img/in-post/2018-06-25-stanford224-NLP/1527126696072.png)
+where $\sigma$ is sigmoid function. (maximize: this is always negative)
+
+#### 3.2.2 Continuous Bag of  Words
+**Core Idea**: Predict center word from sum of surrounding word vectors	
+
+#### 3.2.3 Co-occurrence based model - SVD
+**Core idea**: use a co-occurance matrix to describe a corpus.
+![](/img/in-post/2018-06-25-stanford224-NLP/1527133135747.png)
+**SVD**: A linear algebra thing for matrix decomposition for optimization.
+
+#### 3.2.4 GloVe: Combining direct prediction with Co-occurrence model
+**Core Idea**: multiple vector similarity by a co-occurrence factor.
+![](/img/in-post/2018-06-25-stanford224-NLP/1527133717025.png)
+![](/img/in-post/2018-06-25-stanford224-NLP/1527133725101.png)
+where $P_{ij}$ means the probability of word j appearing in word i's adjcency.
+
+### 3.3 Count based VS direct prediction
+![](/img/in-post/2018-06-25-stanford224-NLP/1527133223225.png)
+
+### 3.4 Evaluation
+#### 3.4.1 Intrinsic evaluation
+**Core idea**: Map the vector shift to other words. Use the nearest word to the landing point as the prediction.
+![](/img/in-post/2018-06-25-stanford224-NLP/1527133318382.png)
+![](/img/in-post/2018-06-25-stanford224-NLP/1527133373643.png)
+
+#### 3.4.2 Extrinsic evalution
+Compare the accuracy of different algorithms.
+
+## 4. Language Modeling 
+The task of predicting what word comes next.
+![](/img/in-post/2018-06-25-stanford224-NLP/1527300019003.png)
+It's a subcomponent to other NLP systems (called conditional language modeling)
+1. Speech Recognition: conditioned on audio
+2. Machine Translation: conditioned on original text
+3. Summarization: conditioned on original text
+
+### 4.1 N-gram language models
+**N-gram**: A chunk of n consecutive words.
+Collect statistics about how frequent different n-grams are, and use these to predict next word.
+![](/img/in-post/2018-06-25-stanford224-NLP/1527300210006.png)
+![](/img/in-post/2018-06-25-stanford224-NLP/1527300252642.png)
+
+#### 4.1.1 Sparsity Problems
+1. What if "students opened their $w_j$" never occurred in data? $w_j$ will have probability 0.
+Add $\delta$ to every $w_j \in V$, this is called **Smoothing**.
+2. What if "students opened their" never occurred in data? $w_j$ will have probability infinity.
+Condition on "opened their" instead, this is called **Backoff**.
+3. What if n is too large that bulk combinations have zero dividend?
+Normally n is no larger than 5.
+
+#### 4.1.2 Space Cost Problem
+Need to store count for all possible n-grams. Model size is O(exp(n)).
+Increasing n makes model size huge.
+
+### 4.2 Window-based Neural Model
+Well, use neural network to do word embedding.
+I/O use one-hot encoding word vectors.
+
+#### 4.2.1 ANN
+![](/img/in-post/2018-06-25-stanford224-NLP/1527300894528.png)
+
+Pros:
+1. No sparsity problems
+2. Model size is much smaller
+
+Cons:
+1. Fixed window should be large, yet that enlarges $W$, and window size is never large enough.
+2. Different $x^{(i)}$ uses different rows of $W$. They don't share weights across the window.
+
+#### 4.2.2 RNN
+![](/img/in-post/2018-06-25-stanford224-NLP/1527301579149.png)
+![](/img/in-post/2018-06-25-stanford224-NLP/1527301593013.png)
+![](/img/in-post/2018-06-25-stanford224-NLP/1527305478460.png)
+
+Pros:
+1. Length of input not limited, and model size doesn't enlarge with input length.
+2. Shared weights.
+
+Cons:
+1. Slow
+2. Difficult to access information from many steps back.
+
+##### 4.2.2.1 Gradient vanishing / exploding
+![](/img/in-post/2018-06-25-stanford224-NLP/1527305499345.png)
+![](/img/in-post/2018-06-25-stanford224-NLP/1527305509906.png)
+![](/img/in-post/2018-06-25-stanford224-NLP/1527305524498.png)
+$\frac{\delta h_t}{\delta h_k} = W^{t-j}$, so when t-j is large, $\frac{\delta h_t}{\delta h_k}$ will easily converge to 0 or infinity
+
+Gradient vanishing / exploding makes it hard for us to tell whether there is no dependency between data t and data t+n, or data t isn't taken into consideration due to gradient vanishing.
+
+##### 4.2.2.2 Clipping
+Clipping sets a maximum threshold for gradients, solving gradient exploding problem.
+![](/img/in-post/2018-06-25-stanford224-NLP/1527305762855.png)
+
+##### 4.2.2.3 Initialization + ReLU
+Initialize $W^*$ to identity matrix I, and f(z) = relu(z)
+When f(z) = relu(z), $\frac{\delta h_t}{\delta h_k} = \Pi^t_{t-k+1}\frac{\delta h_i}{\delta h_{i-1}} = 1$
+
+
+#### 4.2.3 LSTM
+**Structure**:
+![](/img/in-post/2018-06-25-stanford224-NLP/1527743115649.png)
+![](/img/in-post/2018-06-25-stanford224-NLP/1527743096157.png)
+
+**Evaluation**:
+1. very powerful, especially stacked and made even deeper.
+2. input gate, forget gate, output gate use sigmoid because it outputs a number between 0 and 1, used as a ratio.
+3. $tanh^{i}(z) = 1 - tanh^2(z)$ can withstand vanishing gradients.
+
+#### 4.2.4 GRU
+**Core Idea**:
+1. keep around memories to capture long distance dependencies
+2. allow error messages to flow at different strengths depending on the inputs
+3. can solve gradient vanishing problem
+
+**Structure**:
+![](/img/in-post/2018-06-25-stanford224-NLP/1527742152559.png)
+**reset** : a ratio measuring how much past info should be forgetted. if reset is close to 0, ignore previous hidden state (allow model to drop information that is irrelevant to future)
+**update** : the ratio between past info and new info. If update is close to 1, then memories are taken into long-term accounts. (solving gradient vanishing problem)
+ $\hat{h_t}$ and $x_t$ are two contents.
+
+
+#### 4.2.5 Bi-RNN
+**Core Idea**: for classification you want to incorporate information from words both preceding and following
+![](/img/in-post/2018-06-25-stanford224-NLP/1527741641717.png)
+
+### 5. Language Model Evaluation
+
+#### 5.1 Perplexity
+![](/img/in-post/2018-06-25-stanford224-NLP/1527301703688.png)
+The lower, the better. RNN is distinguishingly better than N-gram
+![](/img/in-post/2018-06-25-stanford224-NLP/1527302631681.png)
+
+## 6. Machine Translation
+**Definition**: the task of translating a sentence x from one language to a sentence y in another language.
+
+### 6.1 History
+#### 6.1.2 1950s: Early Machine Translation
+ mostly Russian-English. Systems were rule-based, using a bilingual dictionary to map Russian words to their English counterparts. (by-product QuickSort)
+
+#### 6.1.2 1990s-2000s: Statistical Machine Translation
+ to learn a Probabilistic model from data.
+![](/img/in-post/2018-06-25-stanford224-NLP/1527747550895.png)
+![](/img/in-post/2018-06-25-stanford224-NLP/1527747743539.png)
+a is the alignment, which means the word-word correspondence between languages.
+needs large amount of parallel data to learn P(x|y)
+
+SMT is a huge research field, the best systems are extremely complex: feature engineering, extra resources, human efforts.
+
+#### 6.1.3 Neural Machine Translation
+In 2014 the first seq2seq paper published, in 2016 Google Translate switched from SMT to NMT.
+
+### 6.2 Neural Machine Translation (NMT)
+Also called Seq2Seq as it involves 2 RNNs. (encoder-decoder scheme)
+![](/img/in-post/2018-06-25-stanford224-NLP/1527748199308.png)
+
+Pros:
+1. great performance
+2. a single nn that could be trained end2end
+3. much less human efforts
+
+Con:
+1. less interpretable
+2. difficult to control
+3. Seq2Seq uses greedy decoding (output the word with max prob each step), it can't undo decisions. To solve this problem we could use **beam search** instead.
+4. Bottleneck problem: the last unit of encoder RNN needs to capture all information from the source sentence. To solve this problem we could use **Attention Mechanism** to reuse encoder outputs.
+
+### 6.2.1 Beam Search
+On each step of decoder, keep track of the k most probable partial translators.
+![](/img/in-post/2018-06-25-stanford224-NLP/1527748436160.png)
+
+### 6.2.2 Evaluation: BLEU (Bilingual Evaluation Understudy)
+BLEU compares machine-written translation to one or more human-written translations, and computes a similarity score based on: N-gram precision / Penalty for too-short system translations.
+
+Con: a sentence can be translated multiple ways.
+
+### 6.2.3 CNN
+CNN encoder + RNN decoder scheme.
+
+### 6.3 Attention
+**Definition**:  A technique to compute a weighted sum of values, dependent on the query. (For example, in seq2seq model, each decoder hidden state attends to the encoder hidden states.) The weighted sum is a selected summary of the information contained in the values.
+Attention Mechanism allows the decoder to reuse all outputs from encoder, bypassing the bottleneck problem.
+![](/img/in-post/2018-06-25-stanford224-NLP/1527750232705.png)
+![](/img/in-post/2018-06-25-stanford224-NLP/1527750316664.png)
+
+Pros:
+1. improve NMT performance
+2. solve bottleneck problem
+3. help with vanishing gradients (provide shortcuts to far-away encoding states)
+4. provides interpretability: by looking at attention distribution we get alignments: current input decoder word and current encoding word with highest attention.
+
+#### 6.3.1 Modifications
+##### 6.3.1.1 Computing e
+- Basic dot-product attention: $e_i=s^Th_i$
+- Multiplicative attention: $e_i=s^TWh_i$, with param $W$
+- Additive attention: $e_i=v^Ttanh(W_1h_i+W_2s)$, with params $W_1, W_2, v$
+
+##### 6.3.1.2 Intra-Decoder for Summarization
+![](/img/in-post/2018-06-25-stanford224-NLP/1529629835075.png)
+Also use attention in decoder, this prevents output repetitions from long input sequences.
+
+##### 6.3.1.3 Quasi-Recurrent Neural Network
+![](/img/in-post/2018-06-25-stanford224-NLP/1529630377363.png)
+Use pooling to shrink input data size. 10x times faster than RNN. 
+
+#### 6.3.2 Applications of Attention
+Attention is a great way to obtain a fixed-size representation of an arbitrary set of representations.
+
+##### 6.3.2.1 Pointer-Sentinel Model
+![](/img/in-post/2018-06-25-stanford224-NLP/1529195465662.png)
+$p(y_i|x_i)=gp_{vocab}(y_i|x_i)+(1-g)p_{ptr}(y_i|x_i), z_i=q^Th_i, p_{ptr}(w)=\Sigma_{i\in I(w,x)}a_i, a=softmax(z)$
+
+##### 6.3.2.2 On Using Very Large Target Vocabulary
+**Training**: partition training data into subsets, each subset with a equal number of vocabulary.
+**Testing**: for each input word return a list of candidate words (from different trained models). Then integrate an output sentence from candidate lists.
+
+## 7. Coreference Resolution
+Coreference is when two mentions refer to the same entity in the world; another kind of reference is anaphora.
+
+### 7.1 Models
+#### 7.1.1 Mention Pair
+Train a binary classifier that assigns every pair of mentions a probability of being coreferent.
+![](/img/in-post/2018-06-25-stanford224-NLP/1529632120341.png)
+![](/img/in-post/2018-06-25-stanford224-NLP/1529631847467.png)
+Pick a threshold and add coreference to links between pairs where the link weight is above threshold.
+Take the transitive closure for clustering.
+
+#### 7.1.2 Mention Ranking
+Assign each mention its highest ranking candidate (softmax) according to the model. NA allows for the current word not being linked to any antecedents.
+![](/img/in-post/2018-06-25-stanford224-NLP/1529632195892.png)
+![](/img/in-post/2018-06-25-stanford224-NLP/1529632234034.png)
+Each word is only assigned one antecedent, this is the main difference between Mention Pair and Mention Ranking.
+
+##### 7.1.2.1 Training - Neural Coref Model
+![](/img/in-post/2018-06-25-stanford224-NLP/1529632982899.png)
+
+##### 7.1.2.2 End-to-End 2017
+LSTM + Attention
+1. embed the words in the document using a word embedding matrix and a character-level CNN.
+2. Run a bidirectional LSTM over the document
+3. represent each span of text i going from START(i) to END(i) as a vector.
+![](/img/in-post/2018-06-25-stanford224-NLP/1529633128872.png)
+![](/img/in-post/2018-06-25-stanford224-NLP/1529633223091.png)
+4. Score each pair of spans to decide whether they are coreferent.
+![](/img/in-post/2018-06-25-stanford224-NLP/1529633432771.png)
+![](/img/in-post/2018-06-25-stanford224-NLP/1529633442640.png)

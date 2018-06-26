@@ -1,0 +1,292 @@
+---
+layout:     post
+title:      "Sorting"
+subtitle:   "LeetCode Review 2"
+date:       2018-06-25 12:00:00
+author:     "Farrell"
+header-img: "img/bg3.jpg"
+catalog: true
+tags:
+    - Leetcode
+    - Sorting
+---
+
+> Problems under tag "Sorting" also implements other methods. Well...there isn't very much to talk about sorting. PQ needs a dig-in.
+
+## 1. Sorting
+
+Algorithm|TimeCost|Stability|Comments
+:---:|:---:|:---:|:---:
+InsertionSort|O(n^2)|true|don't use it, too slow
+MergeSort|O(nlogn)|true|most frequently used, could be used in linked list sorting / finding reverse orders
+QuickSort|O(nlogn)|false|worse than mergesort, not often used
+HeapSort(PriorityQueue)|O(nlogn)|false|second frequently used, PQ is really good; building heap takes time, slower than mergesort but expandable
+CountSort|O(n)|true|very fast, sometimes combined with HashMap methods or DP
+
+Most problems under tag "sorting" also implements other methods. In practice only HeapSort and MergeSort are used often (countSort also used but less frequently). Worth noticing "Interval Problems" is really a pain in the shoe so I'd better really dig it in. PriorityQueue is very useful tool since shen it implements heapsort, the data structure heap preserves a dynamic sorting list, giving us access to the 2nd, 3rd... elements. Count sort is often implemented / substituted by Hashtable methods. It saves time not only by smaller algo time cost, but also by using basic data structures (arrays but not arraylist). 
+
+When dealing with sorting problems, you should really calculate time cost before you move since in many cases trivial iterations are allowed, such as O(3n) being much better than O(nlogn). For example, when using mergesort to sort linked list, though each time I have to use 2 pointers to find the middle point, the time cost is still O(nlogn).
+
+---
+## 2. Methods
+### <span id="mergeSort">2.1 MergeSort</span>
+```java
+public static void MergeSort(ArrayList array, int start, int end){
+    if (start >= end)
+        return;
+    int mid = (start + end) / 2;
+    MergeSort(array, start, mid);
+    MergeSort(array, mid+1, end);
+    Merge(array, start, mid, end);
+}
+
+private static void Merge(ArrayList<Integer> array, int start, int mid, int end){
+    for(int i=mid+1; i<=end; i++){
+        int insertIndex = Util.BinarySearchInsert(array, start, i-1, array.get(i));
+        int temp = array.get(i);
+        array.remove(i);
+        array.add(insertIndex, temp);
+    }
+}
+```
+
+### <span id="CountSort">2.2 Countsort</span>
+```java
+public void countSort(int[] nums){
+    if (nums.length == 0) return;
+    int imin = 0;
+    int imax = 0;
+    for(int num: nums) {
+        if (num < imin) imin = num;
+        else if (num > imax) imax = num;
+    }
+
+    int[] bins = new int[imax-imin+1];
+    for(int num: nums) 
+        bins[num-imin]++;
+    for(int i=1; i<bins.length; i++) 
+        bins[i] += bins[i-1];
+
+    int[] res = new int[nums.length];
+    for(int i=nums.length-1; i>=0; i--){
+        res[bins[nums[i]-imin]] = nums[i];
+        bins[nums[i]-imin]--;
+    }
+    return res;
+}
+```
+
+### <span id="QuickSort">2.3 QuickSort</span>
+```java
+public static void QuickSort(ArrayList<Integer> array, int start, int end){
+    if(start >= end)
+        return;
+    int mid = partition(array, start, end);
+    System.out.println(array);
+    QuickSort(array, start, mid-1);
+    QuickSort(array, mid+1, end);
+}
+
+private static int partition(ArrayList<Integer> array, int start, int end){
+    int target = array.get(end);
+    int lindex = start;
+    for(int i=start; i<end; i++){
+        if (array.get(i) <= target){
+            Util.Swap(array, lindex, i);
+            lindex += 1;
+        }
+    }
+    Util.Swap(array, end, lindex);
+    return lindex;
+}
+```
+
+### <span id="IntevalManaging">2.4 Interval</span>
+This is also application of <span id="HeapSort">HeapSort</span>
+Interval Merging Scenarios
+1. intersection: [1,3],[2,4] -> [1,4]
+2. contain: [1,4], [2,3] -> [1,4]
+
+#### <span id="MergingInterval">2.4.1 Merging Interval</span>
+
+Use Priority Queue to insert intervals into resulting list while merging, see 2.4.2.
+
+```java
+public List<Interval> merge(List<Interval> intervals) {
+    if(intervals.isEmpty() || intervals==null) return new ArrayList<Interval>();
+    PriorityQueue<Interval> pq = new PriorityQueue<Interval>(intervals.size(), new Comparator<Interval>(){
+        @Override
+        public int compare(Interval a, Interval b){
+            if(a.start - b.start > 0) return 1;
+            else if (a.start - b.start < 0) return -1;
+            else return 0;
+        }
+    });   
+            
+    for(Interval i : intervals) pq.offer(i);
+    List<Interval> result = new ArrayList<Interval>();
+    Interval initial = pq.poll();
+    int start = initial.start, end = initial.end;
+    
+    while(!pq.isEmpty()){
+        Interval i = pq.poll();
+        if(i.start <= end){
+            end=Math.max(i.end, end);
+        }
+        else {
+            result.add(new Interval(start, end));
+            start=i.start;
+            end=i.end;
+        }
+       
+    }
+    result.add(new Interval(start,end));
+    return result;
+
+}
+```
+
+Sort then merge from front
+```java
+public List<Interval> merge(List<Interval> intervals) {
+    if (intervals.size() < 1) return new ArrayList<Interval>();
+    intervals.sort(new Comparator<Interval>(){
+        public int compare(Interval a, Interval b){
+            return a.start-b.start;
+        }
+    });
+    
+    ArrayList<Interval> res = new ArrayList<Interval>();
+    Interval prev = intervals.get(0);
+    for(int i=1; i<intervals.size(); i++){
+        Interval cur = intervals.get(i);
+        if (prev.end >= cur.start)
+            prev.end = Math.max(prev.end, cur.end);
+        else {
+            res.add(prev);
+            prev = cur;
+        }
+    }
+    res.add(prev);
+    return res;
+}
+```
+
+#### <span id="InsertingInterval">2.4.2 Inserting interval</span>
+1. find the position P where before P all intervals are non-relative to new interval; 
+2. start = mini(new.start, intervals[P+1].start)
+3. iteratively end = max(new.end, intervals[iter].end) until current interval is non relative to new interval
+```java
+newInterval.start = Math.min(newInterval.start, intervals.get(i).start);
+while(i < intSize && newInterval.end >= intervals.get(i).start) {
+    newInterval.end = Math.max(newInterval.end, intervals.get(i).end);
+    i++;
+}
+```
+
+---
+## 3. Solutions
+
+### 56 Merge Intervals
+
+Param|Value
+:---:|:---
+Input|interval list
+Output|merged intervals
+Solution|PriorityQueue / sort then iterate, merging
+TimeCost|O(nlogn) / O(nlogn + n)
+Percent|93%(PQ)
+CornorCase|None
+Tricks|[IntevalManaging](#IntevalManaging), [HeapSort](#HeapSort)
+
+### 57 Insert Interval
+
+Param|Value
+:---:|:---
+Input|sorted interval list, new interval
+Output|interval list after insertion
+Solution|add head non-overlapping intervals, merge middle intervals with new interval, add tail non-overlapping intervals
+TimeCost|O(n)
+Percent|98%
+CornorCase|if new interval at tail, return
+Tricks|[IntevalManaging](#IntevalManaging)
+
+### 75 Sort Colors
+
+Param|Value
+:---:|:---
+Input|Integer Array with 0/1/2 as elements
+Output|sorted array
+Solution|hashmap/countsort/mergesort/anything...
+TimeCost|O(n)
+Percent|74
+CornorCase|None
+Tricks|None
+
+### 147 Insertion Sort List
+Linked List Problem
+
+### 148 Sort List
+Linked List Problem
+
+### 164 Maximum Gap
+
+Param|Value
+:---:|:---
+Input|Integer Array
+Output|max gap between consecutive numbers in sorted array
+Solution|sort array, then iterate through to find max gap
+TimeCost|O(nlogn)
+Percent|76
+CornorCase|None
+Tricks|None
+
+### 179 Largest Number
+String problem
+
+Param|Value
+:---:|:---
+Input|Integer Array
+Output|Contatenate them to find a maximum number, return by string
+Solution|Sort by Compare (numstr1+numstr2) and (numstr2+numstr1), then concatenate
+TimeCost|O(nlogn)
+Percent|87
+CornorCase|[0,0,0] -> "000"
+Tricks|String Concatenation
+
+### 242 Valid Anagram
+HashTable problem
+
+### 274 H-Index
+
+Param|Value
+:---:|:---
+Input|Integer Array
+Output|H-index
+Solution|CountSort, then iterate through and decide whether `i >= sorted[i]`
+TimeCost|O(n)
+Percent|100
+CornorCase|empty input array
+Tricks|[CountSort](#CountSort)
+
+### 349 Intersection of Two Arrays
+HashTable problem
+
+### 350 Intersection of Two Arrays II
+HashTable problem
+
+### 524 Longest Word in Dictionary through Deleting
+String Comparison Problem.
+
+### 767 Reorganize String
+
+Param|Value
+:---:|:---
+Input|String
+Output|"aab" -> "aba": any two characters that are adjacent to each other are not the same.
+Solution|count chars and put into priority queue
+TimeCost|O(nlogn)
+Percent|76
+CornorCase|None
+Tricks|[HeapSort](#HeapSort)
+
