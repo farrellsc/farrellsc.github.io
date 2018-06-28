@@ -18,6 +18,7 @@ github_username:    farrellsc
 # twitter_username:  huxpro
 # facebook_username:  huxpro
 linkedin_username:   zhou-zhuang-a12b7b124
+mail_username:   zhou.zhuang.farrell@gmail.com
 
 
 
@@ -43,7 +44,7 @@ gems: [jekyll-paginate]
 # document: http://jekyllrb.com/docs/configuration/#kramdown
 markdown: kramdown
 kramdown:
-  input: GFM                            # use Github Flavored Markdown !important
+input: GFM                            # use Github Flavored Markdown !important
 
 
 
