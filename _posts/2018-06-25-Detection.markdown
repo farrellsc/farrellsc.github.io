@@ -12,7 +12,7 @@ tags:
     - Detection
 ---
 
-> previous notes
+> Old notes
 
 # CV
 

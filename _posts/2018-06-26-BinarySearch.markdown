@@ -11,11 +11,11 @@ tags:
     - BinarySearch
 ---
 
-> \# 436 also has a faster DP solution
+> \# 436 also has a faster DP solution; do \# 81 again
 
 ## 1. BinarySearch
 Use time cost O(logn) to get a position in a list that is sorted, or sequenced according to a certain pattern (applies for local pattern, see \# 162). 
-Most "BinarySearch tagged" leetcode problems could be solved with other tools more efficiently such as HashMap and TwoPointers.
+Most "BinarySearch tagged" leetcode problems could be solved with other tools more efficiently such as Sorting, HashMap and TwoPointers.
 
 ---
 ## 2. Methods
@@ -126,6 +126,30 @@ See \# 162, the goal is to search for a local peak, thus when shortening candida
 ---
 ## 3. Solutions
 
+### 33 Search in Rotated Sorted Array
+
+Param|Value
+:---:|:---
+Input|rotated array with no duplicates; target
+Output|target position in rotated array
+Solution|same as \# 153
+TimeCost|O(logn)
+Percent|83%
+CornorCase|None
+Tricks|[LocalPattern](#LocalPattern); [RotatedArray](#RotatedArray)
+
+### 34 Search for a Range
+
+Param|Value
+:---:|:---
+Input|array with duplicates, target
+Output|start and end index of target in array
+Solution|standard bisearch to find start, iterate over
+TimeCost|O(logn+n)
+Percent|75
+CornorCase|None
+Tricks|[StandardBinarySearch](#StandardBinarySearch);
+
 ### 35 Search Insert Position
 
 Param|Value
@@ -138,6 +162,54 @@ Percent|100
 CornorCase|None
 Tricks|[BinarySearchInsertion](#BinarySearchInsertion)
 
+### 50 Pow(x, n)
+
+Param|Value
+:---:|:---
+Input|base x and exponential n
+Output|pow(x,n)
+Solution|recursive, each time do x*x
+TimeCost|O(logn)
+Percent|85
+CornorCase|n==0 || n==1; input
+Tricks|None
+
+### 69 Sqrt(x)
+
+Param|Value
+:---:|:---
+Input|num x
+Output|sqrt(x)
+Solution|bisearching x root
+TimeCost|O(logx)
+Percent|48
+CornorCase|None
+Tricks|[StandardBinarySearch](#StandardBinarySearch); standard bisearch solution is behind the optimized version (on bisearch decision) by 50% for one more multiplication.
+
+### 74 Search a 2D Matrix
+
+Param|Value
+:---:|:---
+Input|sorted matrix, start of each line bigger than end of previous line; target number
+Output|whether target number is in sorted matrix
+Solution|bs along rows, bs along cols
+TimeCost|O(logn)
+Percent|95
+CornorCase|first bs, find the first line head smaller than target
+Tricks|[StandardBinarySearch](#StandardBinarySearch)
+
+### 81 Search in Rotated Sorted Array II
+
+Param|Value
+:---:|:---
+Input|rotated array with no duplicates; target
+Output|target position in rotated array
+Solution|same as \# 154
+TimeCost|O(logn)
+Percent|83%
+CornorCase|None
+Tricks|[LocalPattern](#LocalPattern); [RotatedArray](#RotatedArray)
+
 ### 153 Find Minimum in Rotated Sorted Array
 
 Param|Value
@@ -148,7 +220,7 @@ Solution|modified binary search: compare nums[mid] with nums[r]
 TimeCost|O(logn)
 Percent|83
 CornorCase|None
-Tricks|[RotatedArray](#RotatedArray)
+Tricks|[LocalPattern](#LocalPattern); [RotatedArray](#RotatedArray)
 
 ### 154 Find Minimum in Rotated Sorted Array II
 
@@ -160,7 +232,7 @@ Solution|modified binary search: compare nums[mid] with nums[r], if nums[mid] ==
 TimeCost|O(logn)
 Percent|100
 CornorCase|None
-Tricks|[RotatedArray](#RotatedArray)
+Tricks|[LocalPattern](#LocalPattern); [RotatedArray](#RotatedArray)
 
 ### 162 Find Peak Element
 
@@ -175,6 +247,10 @@ CornorCase|None
 Tricks|[LocalPattern](#LocalPattern)
 
 ### 167 Two Sum II - Input array is sorted
+
+This is a two-pointer problem.
+
+### 209 Minimum Size Subarray Sum
 
 This is a two-pointer problem.
 
@@ -193,6 +269,10 @@ TimeCost|O(m+n)
 Percent|79 (should be best, since best solution in leetcode takes O(mlog(n)))
 CornorCase|empty input matrix, empty input matrix[0]
 Tricks|[MatrixValueRank](#MatrixValueRank)
+
+### 278 First Bad Version
+
+Omitted
 
 ### 287 Find the Duplicate Number
 
@@ -225,6 +305,10 @@ This is a HashMap/HashSet problem.
 ### 350 Intersection of Two Arrays II (sorted arrays)
 
 This is a HashMap/HashSet/TwoPointer problem.
+
+### 354 Russian Doll Envelopes
+
+This is a DP problem.
 
 ### 367 Valid Perfect Square
 
@@ -287,6 +371,18 @@ Tricks|[StandardBinarySearch](#StandardBinarySearch)
 ### 454 4Sum II
 
 This is a HashMap problem.
+
+### 475 Heaters
+
+Param|Value
+:---:|:---
+Input|heater m positions, house n positions
+Output|minimum heater radius
+Solution|1. sort heaters, for each house search for insertion point, get a radius; 2. sort heaters and houses, 2 ptrs iterate
+TimeCost|1. O((m+n)logm); 2. O(mlogm+nlogn+(m+n))
+Percent|58
+CornorCase|1. None
+Tricks|[StandardBinarySearch](#StandardBinarySearch)
 
 ### 668 Kth Smallest Number in Multiplication Table
 

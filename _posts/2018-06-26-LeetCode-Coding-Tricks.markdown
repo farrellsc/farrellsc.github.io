@@ -76,3 +76,8 @@ much faster
 
 ### <span id="arrayLengthCost"> 9 ArrayList length func cost</span>
 it costs a lot
+
+### <span id="addOverflowsInteger"> 10 Integer Overflow caused by Adding</span>
+`l + r` may cause overflow, use l + (r-l)/2 instead.
+
+### <span id=""

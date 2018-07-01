@@ -11,7 +11,7 @@ tags:
     - Auto Pilot
 ---
 
-> previous notes;;; mathjax to be fixed
+> Old notes; mathjax to be fixed
 
 ## Auto Pilot 
 

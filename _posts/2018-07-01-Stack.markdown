@@ -1,0 +1,63 @@
+---
+layout:     post
+title:      "Stack"
+subtitle:   "LeetCode Review 2"
+date:       2018-07-01 12:00:00
+author:     "Farrell"
+header-img: "img/bg3.jpg"
+catalog: true
+tags:
+    - Leetcode
+    - Stack
+---
+
+>
+
+## 1. Stack
+
+---
+## 2. Methods
+
+### <span id="TreeTraverse">2.1 Binary Tree Traverse</span>
+Inorder Traverse:
+```java
+
+```
+
+Preorder Traverse:
+```java
+
+```
+
+### <span id=""> </span>
+
+---
+## 3. Solutions
+
+### 94 Binary Tree Inorder Traversal
+
+### 144 Binary Tree Preorder Traversal
+
+### 682 Baseball Game
+
+Param|Value
+:---:|:---
+Input|List of Actions
+Output|points
+Solution|use a stack, act according to new action in list
+TimeCost|O(n)
+Percent|81
+CornorCase|None
+Tricks|None
+
+### 844 Backspace String Compare
+
+Param|Value
+:---:|:---
+Input|two strings, with '#' as backspace
+Output|whether two strings are identicle
+Solution|two stacks
+TimeCost|O(m+n)
+Percent|N/A
+CornorCase|None
+Tricks|None

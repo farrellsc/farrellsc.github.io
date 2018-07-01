@@ -11,7 +11,7 @@ tags:
     - NLP
 ---
 
-> previous notes
+> Old notes
 
 # NLP
 
