@@ -12,7 +12,7 @@ tags:
     - AI
 ---
 
-"Machine Learning Yearning" is a book written by Andrew Ng on how to apply ML to projects. It is a handy brochure that tells useful tricks and things to notice when structuring cool ML projects. This book is still an ongoing draft, to know more about it you may visit "http://www.mlyearning.org/".
+"Machine Learning Yearning" is a book written by Andrew Ng on how to apply ML to projects. It is a handy brochure that tells useful tricks and things to notice when structuring cool ML projects. This book is still an ongoing draft, to know more about it you may visit [here](http://www.mlyearning.org/).
 
 Why is ML taking off? Key progress: Data Availability & Computational Scale. So one of the more reliable ways to improve an algorithm’s performance today is still to (i) train a bigger network and (ii) get more data.
 
