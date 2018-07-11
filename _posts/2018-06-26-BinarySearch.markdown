@@ -405,6 +405,7 @@ CornorCase|None
 Tricks|[StandardBinarySearch](#StandardBinarySearch)
 
 ### 778 Swim in Rising Water
+
 This is a BFS problem.
 
 ### 852 Peak Index in a Mountain Array

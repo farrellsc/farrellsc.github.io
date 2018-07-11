@@ -1,0 +1,624 @@
+---
+layout:     post
+title:      "Tree"
+subtitle:   "LeetCode Review 5"
+date:       2018-07-04 12:00:00
+author:     "Farrell"
+header-img: "img/bg3.jpg"
+catalog: true
+tags:
+    - Leetcode
+    - Tree
+---
+
+> todo: use dfs with tree, 513, 437
+
+## 1. Tree
+```java
+public class TreeNode{
+	int val;
+	TreeNode left;
+	TreeNode right;
+	TreeNode(int x) {val = x;}
+}
+```
+
+Tree problems are much like Linkedlist problems, with the key to solution lies in a local focus instead of a macro focus on the whole problem. Most cases only require a decent look into the mechanism at a certain node and only one cornor case (return conditions) is involved. The solutions should be clean and short. The correct solution is also prone to be an optimized one. The very basics of tree problems is tree traversal (see 2.2, both recursive traversals and non-recursive traversals). Worth noticing, postorder traverse is usually tricky to implement, but it is equals to "reversed right-left preorder traverse", which could be coneviently implemented.
+
+Leetcode Tree chapter is kind of dull, with the mediums being easy and the easys being alike. 
+
+---
+
+## 2. Methods
+
+### <span id="recursiveBuildTree">2.1 Recursive BuildTree</span>
+```java
+public TreeNode treeBuilder(any input){
+	if (judgement()) return null;
+	TreeNode root = new TreeNode(something());
+	root.left = treeBuilder(somechange(input));
+	root.right = treeBuilder(someOtherChange(input));
+	return root;
+}
+```
+
+### <span id="recursiveIteration">2.2 Recursive Iteration</span>
+Attributes for preorder / inorder / postorder walk?
+Recursive solution:
+```java
+static public void preorder_walk(TreeNode node){
+    if (node == null)
+        return;
+    System.out.print(node.value + " ");
+    preorder_walk(node.lc);
+    preorder_walk(node.rc);
+}
+
+public void inorder_walk(TreeNode node){
+    if (node == null)
+        return;
+    inorder_walk(node.lc);
+    System.out.print(node.value + " ");
+    inorder_walk(node.rc);
+}
+
+public void postorder_walk(TreeNode node){
+    if (node == null)
+        return;
+    postorder_walk(node.lc);
+    postorder_walk(node.rc);
+    System.out.print(node.value + " ");
+}
+```
+
+non-Recursive solution: ([postAndPre](#postAndPre))
+```java
+public List<Integer> preorderTraversal(TreeNode root) {
+    if (root == null) return new ArrayList<Integer>();
+    ArrayList<Integer> res = new ArrayList<Integer>();
+    Stack<TreeNode> istack = new Stack<TreeNode>();
+    
+    istack.push(root);
+    TreeNode iter = null;
+    while (!istack.isEmpty() || iter != null) {
+        if (iter == null) {
+            iter = istack.pop();
+            res.add(iter.val);
+            if (iter.right != null) istack.push(iter.right);
+            iter = iter.left;
+        } else {
+            res.add(iter.val);
+            if (iter.right != null) istack.push(iter.right);
+            iter = iter.left;
+        }
+    }
+    
+    return res;
+}
+
+public List<Integer> inorderTraversal(TreeNode root) {
+    ArrayList<Integer> res = new ArrayList<Integer>();
+    Stack<TreeNode> istack = new Stack<TreeNode>();
+    TreeNode iter = root;
+    while (iter != null || !istack.isEmpty()) {
+        if (iter != null) {
+            istack.add(iter);
+            iter = iter.left;
+        } else {
+            iter = istack.pop();
+            res.add(iter.val);
+            iter = iter.right;
+        }
+    }
+    return res;
+}
+
+public List<Integer> postorderTraversal(TreeNode root) {
+    Stack<TreeNode> istack = new Stack<TreeNode>();
+    TreeNode iter = root;
+    ArrayList<Integer> res = new ArrayList<Integer>();
+    
+    while (!istack.isEmpty() || iter != null){
+        if (iter == null) {
+            iter = istack.pop();
+            if (iter.left != null) istack.push(iter.left);
+            res.add(iter.val);
+            iter = iter.right;
+        }
+        else {
+            if (iter.left != null) istack.push(iter.left);
+            res.add(iter.val);
+            iter = iter.right;
+        }
+    }
+        
+    Collections.reverse(res);
+    return res;
+}
+```
+
+
+### <span id="IterativeRecursions">2.3 Iterative Recursions</span>
+```java
+public TreeNode trimBST(TreeNode root, int L, int R) {
+    if (root == null) return root;
+    else if (root.val > R) return trimBST(root.left, L, R);
+    else if (root.val < L) return trimBST(root.right, L, R);
+    root.left = trimBST(root.left, L, R);
+    root.right = trimBST(root.right, L, R);
+    return root;
+}
+```
+
+### <span id="treeDepth">2.4 Tree Depth </span>
+```java
+public int maxDepth(TreeNode root) {
+    return root == null ? 0 : Integer.max(maxDepth(root.left), maxDepth(root.right))+1;
+}
+```
+
+### <span id="postAndPre">2.5 Relationship between postorder traverse and preorder traverse</span>
+postorder == reversed right-left preorder
+
+---
+
+## 3. Solutions
+
+### 94 Binary Tree Inorder Traversal
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|inorder traversal
+Solution|recursive beats 98%; non-recursive beats 44%
+TimeCost|O(n)
+Percent|98
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 98 Validate Binary Search Tree
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|whether tree is valid BST
+Solution|recursively decide father-child value comparisons are within rule
+TimeCost|O(n)
+Percent|97
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 100 Same Tree
+
+Param|Value
+:---:|:---
+Input|two trees
+Output|whether two trees are similar
+Solution|traversal, return false when dissimilar
+TimeCost|O(n)
+Percent|94
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 101 Symmetric Tree
+same as \# 100
+
+### 102 Binary Tree Level Order Traversal
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|tree array with levels ordered [[]]
+Solution|inorder traversal
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 103 Binary Tree Zigzag Level Order Traversal
+
+same as \# 102, one more step of zigzagging
+
+### 104 Maximum Depth of Binary Tree
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|tree depth
+Solution|iteratively counting depth
+TimeCost|O(n)
+Percent|85
+CornorCase|None
+Tricks|[treeDepth](#treeDepth)
+
+### 105 Construct Binary Tree from Preorder and Inorder Traversal
+
+Param|Value
+:---:|:---
+Input|preorder traversal; inorder traversal
+Output|tree root
+Solution|preorder head is root; use root to split inorder traversal into left and right subtrees, recursively do this until null;
+TimeCost|O(n)
+Percent|95
+CornorCase|None
+Tricks|[recursiveBuildTree](#recursiveBuildTree)
+
+### 106 Construct Binary Tree from Inorder and Postorder Traversal
+
+modify \# 105 with [postAndPre](#postAndPre)
+
+### 107 Binary Tree Level Order Traversal II
+
+same as \# 102
+
+### 108 Convert Sorted Array to Binary Search Tree
+
+Param|Value
+:---:|:---
+Input|sorted array
+Output|BST
+Solution|recursively bisect array and construct BST
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 110 Balanced Binary Tree
+
+same as \# 543
+
+### 111 Minimum Depth of Binary Tree
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|minimum length from root to leaf
+Solution|iterate through tree while recording minimum depth
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 112 Path Sum
+
+Param|Value
+:---:|:---
+Input|tree root, target sum
+Output|whether there is a route from root to leaf where its sum add up to target sum
+Solution|recursively shrink target sum
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 113 Path Sum II
+
+same as \# 112, one more step on recording paths
+
+### 114 Flatten Binary Tree to Linked List
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|flattened tree (right-child linked list)
+Solution|each iteration move right subtree to left subtree right tail, then move left subtree to right subtree
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 116 Populating Next Right Pointers in Each Node
+see \# 117 as a general solution
+
+### 117 Populating Next Right Pointers in Each Node II
+
+This is a queue problem.
+
+```java
+public void connect(TreeLinkNode root) {
+    if (root == null) return;
+    Queue<TreeLinkNode> queue = new LinkedList<TreeLinkNode>();
+    queue.add(root);
+    queue.add(null);
+    while (!queue.isEmpty()) {
+        TreeLinkNode cur = queue.poll();
+        if (cur == null) {
+            if (queue.isEmpty()) return;
+            else queue.add(null);
+        } else {
+            cur.next = queue.peek();
+            if (cur.left != null) queue.add(cur.left);
+            if (cur.right != null) queue.add(cur.right);
+        }
+    }
+}
+```
+
+### 129 Sum Root to Leaf Numbers
+
+same as \# 257, one more step to record and add all nums
+
+### 144 Binary Tree Preorder Traversal
+
+see non-recursive traversal in [recursiveIteration](#recursiveIteration)
+
+### 145 Binary Tree Postorder Traversal
+
+see non-recursive traversal in [recursiveIteration](#recursiveIteration); [postAndPre](#postAndPre)
+
+### 173 Binary Search Tree Iterator
+omitted
+
+### 199 Binary Tree Right Side View
+one step more than \# 102
+
+### 226 Invert Binary Tree
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|inverted tree
+Solution|inorder traverse
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 257 Binary Tree Paths
+a backtracing trick: new reference each new recursion.
+omitted, [recursiveIteration](#recursiveIteration)
+
+### 230 Kth Smallest Element in a BST
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|kth smallest element
+Solution|inorder traverse iterate through tree from lowest to highest, keep a counter, return when meeting kth smallest node
+TimeCost|O(n)
+Percent|97
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 235 Lowest Common Ancestor of a Binary Search Tree
+
+Param|Value
+:---:|:---
+Input|BST root, treenode p, treenode q
+Output|lowest common ancestor of p and q
+Solution|while (p and q on same side) move root; return root
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|BST tricks
+
+### 236 Lowest Common Ancestor of a Binary Tree
+
+Param|Value
+:---:|:---
+Input|tree root, treenode p, treenode q
+Output|lowest common ancestor of p and q
+Solution|find one in left, find one in right, if not both null, common ancestor found
+TimeCost|O(n)
+Percent|100
+CornorCase|if one is null, the other is not null, then both targets are on the other one.
+Tricks|postorder
+
+
+
+### 404 Sum of Left Leaves
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|sum of left leaves
+Solution|traverse, add when meet left leaf
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 501 Find Mode in Binary Search Tree
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|most frequently occurred elements
+Solution|traversing while counting neighbor nodes sharing same value
+TimeCost|O(n)
+Percent|87
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 508 Most Frequent Subtree Sum
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|most frequent subtree sum (root+left+right value)
+Solution|same as \# 637
+TimeCost|O(n)
+Percent|N/A
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 513 Find Bottom Left Tree Value
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|bottom left node value
+Solution|use hashmap to record positions when iterating
+TimeCost|O(n)
+Percent|46
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration); HashMap
+
+### 515 Find Largest Value in Each Tree Row
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|maximum of levels in input tree.
+Solution|same as \# 637
+TimeCost|O(n)
+Percent|83
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 538 Convert BST to Greater Tree
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|new tree root where node x = sum of (all nodes bigger than x)
+Solution|right-in-left traverse, preserve an adding
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 543 Diameter of Binary Tree
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|tree diameter (longest distance between any two nodes)
+Solution|iteration return is depth, while in do_something it maximize diameter
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+
+### 563 Binary Tree Tilt
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|sum of abs(left-right)
+Solution|iterate through tree, summing node values and adding up to tilts
+TimeCost|O(n)
+Percent|83
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 572 Subtree of Another Tree
+
+Param|Value
+:---:|:---
+Input|tree root; target tree
+Output|whether target tree is subtree of tree
+Solution|iterate through tree, comparing current root to target root
+TimeCost|O(n)
+Percent|99
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 606 Construct String from Binary Tree
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|string representation of the tree. "1(2(4))(3)"
+Solution|iteration while building string
+TimeCost|O(n)
+Percent|92
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 617 Merge Two Binary Trees
+
+Param|Value
+:---:|:---
+Input|tree root a, tree root b
+Output|a merged tree (node c = a+b)
+Solution|iterate through a with another pointer doing the same with b; add b to a
+TimeCost|O(n)
+Percent|77
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 623 Add One Row to Tree
+
+Param|Value
+:---:|:---
+Input|tree root a, add node value v, add depth d
+Output|new tree root, with a new level d where all node values are v. original lc become new node lc, rc become new node rc. root become lc.
+Solution|iterate through tree, when on d-1 level, insert new lc and new rc.
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 637 Average of Levels in Binary Tree
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|average of levels in input tree.
+Solution|iterate through tree, recording node values according to level; compute level avg in record array
+TimeCost|O(nlogn)
+Percent|100
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)
+
+### 653 Two Sum IV - Input is a BST
+
+Param|Value
+:---:|:---
+Input|tree root; target num
+Output|whether target can be combined by two node values
+Solution|iterate through tree, get a num array; use 2 ptrs to find two sum
+TimeCost|O(n)
+Percent|90
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration); [twoPointers](#twoPointers)
+
+### 654 Maximum Binary Tree
+
+Param|Value
+:---:|:---
+Input|array
+Output|tree root; tree root is max num, while left array to root index forms left child, right array to root index forms right child.
+Solution|recursive build tree, iterate to find current max for each subarray
+TimeCost|O(nlogn)
+Percent|83
+CornorCase|None
+Tricks|[recursiveBuildTree](#recursiveBuildTree)
+
+### 669 Trim a Binary Search Tree
+
+Param|Value
+:---:|:---
+Input|tree root, range
+Output|tree root; only nodes with values within range are preserved according to original structure
+Solution|iterative recursions
+TimeCost|O(n)
+Percent|91
+CornorCase|None
+Tricks|[IterativeRecursions](#IterativeRecursions)
+
+### 671 Second Minimum Node In a Binary Tree
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|second minimum node in tree (despite repetition values)
+Solution|iterative recursions, with two class members as first & second minimals. update them each traversion
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|[IterativeRecursions](#IterativeRecursions)
+
+### 814 Binary Tree Pruning
+
+Param|Value
+:---:|:---
+Input|tree root whose node values are only 0 and 1
+Output|tree root; delete sub root that does not contains 1
+Solution|recursively iterate through tree; pruning while iterating
+TimeCost|O(n)
+Percent|N/A
+CornorCase|None
+Tricks|[recursiveIteration](#recursiveIteration)

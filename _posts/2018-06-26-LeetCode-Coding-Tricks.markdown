@@ -80,4 +80,65 @@ it costs a lot
 ### <span id="addOverflowsInteger"> 10 Integer Overflow caused by Adding</span>
 `l + r` may cause overflow, use l + (r-l)/2 instead.
 
-### <span id=""
+### <span id="..."> 11 cause not sure </span>
+why is the following first faster than following second ?
+```java
+TreeNode l = helper(nums, start, cur-1);
+root.left = l;
+```
+```java
+root.left = helper(nums, start, end);
+```
+
+### <span id="classMemberEqualsRef"> 12 class member equals reference</span>
+The following tow functions both successfully record tree features by updating array.
+```java
+class Solution {
+    ArrayList<Integer> arr = new ArrayList<Integer>();
+    
+    public List<Integer> largestValues(TreeNode root) {
+        helper(root, 0);
+        ArrayList<Integer> arr = new ArrayList<Integer>();
+        for (int cur: this.arr) arr.add(cur);
+        return arr;
+    }
+    
+    public void helper(TreeNode root, int level){
+        if (root == null) return;
+        if(level >= this.arr.size()) this.arr.add(root.val);
+        if (root.val > this.arr.get(level)) this.arr.set(level, root.val);
+        helper(root.left, level+1);
+        helper(root.right, level+1);
+    }
+}
+```
+
+```java
+class Solution {
+    public List<Integer> largestValues(TreeNode root) {
+        List<Integer> ret = new ArrayList<>();
+        findMax(root, 1, ret);
+        return ret;
+    }
+    
+    private void findMax(TreeNode n, int level, List<Integer> ret) {
+        if (n == null) return;
+        if (ret.size() < level) ret.add(Integer.MIN_VALUE);
+        if (ret.get(level - 1) < n.val) ret.set(level - 1, n.val);
+        findMax(n.left, level + 1, ret);
+        findMax(n.right, level + 1, ret);
+    }
+}
+```
+
+### <span id="arrayRefFasterThanPrimePassing"> 13 array reference is faster than prime type passing</span>
+```java
+int[] a = {1};
+do_something(a);
+```
+
+slower than following:
+```java
+int a=1;
+a = do_something(a);
+```
