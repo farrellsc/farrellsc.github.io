@@ -1,0 +1,72 @@
+---
+layout:     post
+title:      "HashMap"
+subtitle:   "LeetCode Review 6"
+date:       2018-07-11 12:00:00
+author:     "Farrell"
+header-img: "img/bg3.jpg"
+catalog: true
+tags:
+    - Leetcode
+    - HashMap
+---
+
+> todo: 
+
+## 1. HashMap
+
+
+## 2. Methods
+
+### <span id="ArrayAsMap">2.1 Array as Map</span>
+When dealing with fix-sized maps, we could use array instead, which is much faster than `HashMap` class. The following example is when we need a map for english lower case characters.
+```java
+int[] map = new int[26];
+for(int i=0; i<S.length(); i++) 
+	map[(int)(S.charAt(i)-'a')]++;
+```
+
+### <span id="BitAsMap">2.2 Bit as Map</span>
+Use a number as map in circumstance of offsets. See \# 136
+
+## 3. Solutions
+
+### 136 Single Number
+
+Param|Value
+:---:|:---
+Input|array in which only one element appears once, others all appears twice
+Output|single number
+Solution|use a number as map, xor it by all elements in array
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|[BitAsMap](#BitAsMap)
+
+### 500 Keyboard Row
+
+omitted
+
+### 508 Most Frequent Subtree Sum
+ 
+Categorized under "Tree" tagging.
+
+### 535 Encode and Decode TinyURL
+
+omitted
+
+### 771 Jewels and Stones
+
+Param|Value
+:---:|:---
+Input|String J, String S
+Output|number of characters in S that are in J
+Solution|build int array map from J, count S by map
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|[ArrayAsMap](#ArrayAsMap)
+
+### 811 Subdomain Visit Count
+
+omitted

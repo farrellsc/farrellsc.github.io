@@ -12,11 +12,15 @@ tags:
     - AI
 ---
 
-"Machine Learning Yearning" is a book written by Andrew Ng on how to apply ML to projects. It is a handy brochure that tells useful tricks and things to notice when structuring cool ML projects. This book is still an ongoing draft, to know more about it you may visit [here](http://www.mlyearning.org/).
+### 0. Brief
 
-Why is ML taking off? Key progress: Data Availability & Computational Scale. So one of the more reliable ways to improve an algorithm’s performance today is still to (i) train a bigger network and (ii) get more data.
+![](/img/in-post/2018-07-11-MachineLearningYearning/Cover.png)
 
-### Setting up development and test sets
+"Machine Learning Yearning" is a handy brochure written by Andrew Ng that tells useful tricks and things to notice when coders are structuring cool ML projects. This book is still an ongoing draft, to know more about it you may visit [here](http://www.mlyearning.org/).
+
+**Why is ML taking off ?** Key progress: Data Availability & Computational Scale. So one of the more reliable ways to improve an algorithm’s performance today is still to (i) train a bigger network and (ii) get more data.
+
+### 1. Setting up development and test sets
 **Definitions**:
 - **Training set​**: Which you run your learning algorithm on.
 - **Dev (development) set​**: Which you use to tune parameters, select features, and make other decisions regarding the learning algorithm. Sometimes also called the hold-out cross validation set​.
@@ -27,7 +31,7 @@ Why is ML taking off? Key progress: Data Availability & Computational Scale. So 
 - The size of dev/test set is correlated to the granularity of the accuracy. Too big a dev set is meaningless while too small a dev set is not informative enough. A 70/30 split is for medium-sized datasets, for larger datasets dev set doesn't need such a big split.
 - Dev set and Test set should be of the same distribution. This narrows the options when things go wrong to overfitting dev set, in which case you should get more dev set data.
 
-### Evaluation metrics
+### 2. Evaluation metrics
 
 \-|True|False
 :--:|:--:|:--:
@@ -53,14 +57,14 @@ Negative|TN|FN
 2. You have overfit to the dev set
 3. The metric is measuring something other than what the project needs to optimize.
 
-### Experiment Loops
+### 3. Experiment Loops
 ![](/img/in-post/2018-07-11-MachineLearningYearning/Experiment-Loop.png)
 **The faster you can implement this loop, the faster you will make the progress**:
 1. Start off with some idea​ on how to build the system.
 2. Implement the idea in code​.
 3. Carry out an experiment​ which tells me how well the idea worked. (Usually my first few ideas don’t work!) Based on these learnings, go back to generate more ideas, and keep on iterating.
 
-### Basic Error Analysis
+### 4. Basic Error Analysis
 **Things worth noticing**:
 1. Look at misclassified examples in dev set to start with. You can analysis multiple misclassification problems in parallel. Use a excel sheet to find the major problems in the model.
 2. It's not uncommon to tolerating mislabeled examples to start with, but if the portion of mislabeling accounts for a major portion of misclassification (such as 0.6% mislabeling in 2% error).

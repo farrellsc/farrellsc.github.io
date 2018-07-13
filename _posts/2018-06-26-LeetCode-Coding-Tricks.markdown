@@ -142,3 +142,11 @@ slower than following:
 int a=1;
 a = do_something(a);
 ```
+
+### <span id="ArrayAsMap">14 Array as Map</span>
+When dealing with fix-sized maps, we could use array instead, which is much faster than `HashMap` class. The following example is when we need a map for english lower case characters.
+```java
+int[] map = new int[26];
+for(int i=0; i<S.length(); i++) 
+    map[(int)(S.charAt(i)-'a')]++;
+```
