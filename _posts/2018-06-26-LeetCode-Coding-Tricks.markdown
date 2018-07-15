@@ -150,3 +150,6 @@ int[] map = new int[26];
 for(int i=0; i<S.length(); i++) 
     map[(int)(S.charAt(i)-'a')]++;
 ```
+
+### <span id="">15 == much faster than \></span>
+as it is

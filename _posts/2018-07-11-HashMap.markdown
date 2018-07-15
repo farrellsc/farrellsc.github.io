@@ -11,10 +11,12 @@ tags:
     - HashMap
 ---
 
-> todo: 
+> todo: \# 30
 
 ## 1. HashMap
 
+HashMap is a rudimental data structure. Most HashMap problems aren't problems mainly on HashMap, but only are using HashMap as a tool in a minor step (since it serves great storing objects), then embed this minor step into some algorithm or other data structure. Such as use double hashmaps in frequency countsort.
+HashMap problems involves many optimization problems, yet most are trivial such as adding multiple limitation `if`s at the beginning. The few non-trivial optimization tricks are bit mapping and array mapping. These two methods are really important that you should always try to replace HashMap with them. 
 
 ## 2. Methods
 
@@ -29,7 +31,53 @@ for(int i=0; i<S.length(); i++)
 ### <span id="BitAsMap">2.2 Bit as Map</span>
 Use a number as map in circumstance of offsets. See \# 136
 
+### <span id="MapFreqCountSort">2.3 sorting Frequency by HashMap with CountSort </span>
+1. count elements to generate a freq map: `{3: 5, 1:5}` means element `3` appeared `5` times
+2. (Bucketing) use freqmap to build a reverse map: `{5:[3,1]}` means the elements that appeared 5 times are 3 and 1
+3. reversedly walk through reverse map (start with input length since no elem can appear more than input length) to rank elem freqs
+See \# 451
+
 ## 3. Solutions
+
+### 1 Two Sum
+
+Categorized under "two pointers" tag.
+
+### 3 Longest Substring Without Repeating Characters
+
+Param|Value
+:---:|:---
+Input|string
+Output|Longest Substring Without Repeating Characters
+Solution|use arrayasmap to keep track of character position in string
+TimeCost|O(n)
+Percent|99
+CornorCase|None
+Tricks|[ArrayAsMap](#ArrayAsMap)
+
+### 18 4Sum
+
+Categorized under "Two Pointers" tag.
+
+### 49 Group Anagrams
+
+Param|Value
+:---:|:---
+Input|array of strings
+Output|list<list<string>> where anagrams are grouped together
+Solution|encode strings to 26-bit strings(number of character a-z), then use hashmap to find anagram
+TimeCost|O(m), m is sum of characters in all strings
+Percent|96
+CornorCase|None
+Tricks|None
+
+### 94 Binary Tree Inorder Traversal
+
+Categorized under "Tree" tag.
+
+### 36 Valid Sudoku
+
+omitted
 
 ### 136 Single Number
 
@@ -43,17 +91,299 @@ Percent|100
 CornorCase|None
 Tricks|[BitAsMap](#BitAsMap)
 
+### 138 Copy List with Random Pointer
+
+Categorized under "linkedlist" tag.
+
+### 187 Repeated DNA Sequences
+
+omitted
+
+### 202 Happy Number
+
+omitted
+
+### 204 Count Primes
+
+Param|Value
+:---:|:---
+Input|number n
+Output|number of primes smaller than n
+Solution|keep an arrayasmap from 1 to n; for(i<n){if i is prime: cnt++; map[k*i]=true}; (update prime map as iterating through 1 to n)
+TimeCost|O(n)
+Percent|96
+CornorCase|None
+Tricks|[ArrayAsMap](#ArrayAsMap)
+
+### 205 Isomorphic Strings
+
+Param|Value
+:---:|:---
+Input|two strings
+Output|whether two strings are isomorphic, such as "egg" and "add"
+Solution|deciding when encoding: keep two arrayAsMap; iterate through strings, if values in arrayMaps aren't equal, return false. 
+TimeCost|O(n)
+Percent|99
+CornorCase|None
+Tricks|[ArrayAsMap](#ArrayAsMap)
+
+### 217 Contains Duplicate
+
+omitted
+
+### 219 Contains Duplicate II
+
+Same as \# 438, shifting window
+
+### 242 Valid Anagram
+
+omitted
+
+### 274 H-Index
+
+Param|Value
+:---:|:---
+Input|array of citation nums
+Output|h-index: at least h papers have h citations
+Solution|use map to count citation num : paper num. iterate backward through, and decide (right paper sum >= current citation index)
+TimeCost|O(n)
+Percent|55
+CornorCase|None
+Tricks|[ArrayAsMap](#ArrayAsMap)
+
+### 290 Word Pattern
+
+Param|Value
+:---:|:---
+Input|pattern and sentence
+Output|whether they match, such as "abba" and "cat dog dog cat"
+Solution|use two maps, to ensure that no duplicate matching from pat to sentence and from sentence to pat: "abba" "dog dog dog dog" or "aaaa" "cat dog dog cat" 
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|None
+
+### 299 Bulls and Cows
+
+Param|Value
+:---:|:---
+Input|secret string and guess string
+Output|xAxB
+Solution|use two arrays as maps for secret and guess. 1st iteration count A and record B in map; 2nd iteration compare maps to count B
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|[ArrayAsMap](#ArrayAsMap)
+
+### 347 Top K Frequent Elements
+
+same as \# 451, but in first step must use a HashMap since element values are not limited in ASCII 256
+
+### 349 Intersection of Two Arrays
+
+omitted
+
+### 350 Intersection of Two Arrays II
+
+omitted
+
+### 355 Design Twitter
+
+Categorized under "Design" tag.
+
+### 380 Insert Delete GetRandom O(1)
+
+Param|Value
+:---:|:---
+Input|insertion or deletion or return random num, requires each step take O(1)
+Output|as above
+Solution|maintain a hashmap {value: arrayIndex}; array[value, value...]; when removing, move array tail to removed ind, update hashmap
+TimeCost|O(1)
+Percent|96
+CornorCase|None
+Tricks|None
+
+### 381 Insert Delete GetRandom O(1) - Duplicates allowed
+
+Same as \# 380, but change map value to arrays that stores element positions. Watch for the changes of cornor case.
+
+### 387 First Unique Character in a String
+
+Param|Value
+:---:|:---
+Input|String
+Output|first unique character in string
+Solution|array freq map; walk through freq map in input string order
+TimeCost|O(n)
+Percent|94
+CornorCase|None
+Tricks|[ArrayAsMap](#ArrayAsMap)
+
+### 389 Find the Difference
+
+Same as \# 136
+
+### 409 Longest Palindrome
+
+omitted
+
+### 438 Find All Anagrams in a String
+
+Param|Value
+:---:|:---
+Input|String s, String p
+Output| all the start indices of p's anagrams in s
+Solution|keep an arrayAsMap to record difference between p and s substring
+TimeCost|O(n)
+Percent|96
+CornorCase|None
+Tricks|[ArrayAsMap](#ArrayAsMap)
+
+### 447 Number of Boomerangs
+
+Param|Value
+:---:|:---
+Input|list of coordinates
+Output|number of sets that [a,b,c] where a is the middle point of b and c
+Solution|for(for) to find set nums, use HashMap to record all input coords
+TimeCost|O(n2)
+Percent|98
+CornorCase|[a,b,c] == [a,c,b]
+Tricks|brutal
+
+### 451 Sort Characters By Frequency
+
+Param|Value
+:---:|:---
+Input|string
+Output|new string with most frequent chars at front
+Solution|count sort, use hashmap as meditator, use bitmap as buckets
+TimeCost|O(n)
+Percent|94
+CornorCase|None
+Tricks|[MapFreqCountSort](#MapFreqCountSort)
+
+### 454 4Sum II
+
+Param|Value
+:---:|:---
+Input|four arrays
+Output|number of combinations from four arrays that sum up to 0
+Solution|calc A and B sums, calc C and D sums, find a from A+B and b from C+D where a = -b
+TimeCost|O(n2)
+Percent|87
+CornorCase|None
+Tricks|None
+
+### 463 Island Perimeter
+
+Param|Value
+:---:|:---
+Input|2d map with 0 and 1
+Output|parameter of 1s
+Solution|iterate through map, if 1 add 4, if up/left 1 too, minus 2
+TimeCost|O(n2)
+Percent|97
+CornorCase|None
+Tricks|simple math
+
 ### 500 Keyboard Row
 
 omitted
 
 ### 508 Most Frequent Subtree Sum
  
-Categorized under "Tree" tagging.
+Categorized under "Tree" tag.
 
 ### 535 Encode and Decode TinyURL
 
 omitted
+
+### 554 Brick Wall
+
+Param|Value
+:---:|:---
+Input|array of array (rows of bricks)
+Output|the least number of bricks a vertical line crosses
+Solution|use hashmap to record brick seams
+TimeCost|O(n), n is num of bricks
+Percent|87
+CornorCase|None
+Tricks|None
+
+### 575 Distribute Candies
+
+Param|Value
+:---:|:---
+Input|list of candies
+Output|when candies are evenly distributed to two kids, return the largest number of genres of candies a kid could have
+Solution|return min(candyNum/2, candyGenre)
+TimeCost|O(n)
+Percent|94
+CornorCase|None
+Tricks|very fundamental math
+
+### 594 Longest Harmonious Subsequence
+
+omitted
+
+### 599 Minimum Index Sum of Two Lists
+
+omitted
+
+### 609 Find Duplicate File in System
+
+omitted
+
+### 632 Smallest Range
+
+Categorized under "Heap" tag. 
+
+Param|Value
+:---:|:---
+Input|arrays of arrays
+Output|minimum window where all arrays are involved
+Solution|priorityqueue, find minimum window
+TimeCost|O(n), n is number of all elements combined
+Percent|96
+CornorCase|None
+Tricks|priority queue, not really a hashmap problem
+
+### 645 Set Mismatch
+
+Param|Value
+:---:|:---
+Input|array, size n, with elements from 1-n; but one element was errored, set to duplicate of another element: [1,2,2,4,5,6]
+Output|[dup, missing]
+Solution|1st iteration, nums[nums[cur]] *= -1; if already < 0 then duplicate found; 2nd iteration find missing one
+TimeCost|O(n)
+Percent|99
+CornorCase|None
+Tricks|[ArrayAsMap](#ArrayAsMap); input as map
+
+### 690 Employee Importance
+
+Categorized under "breadth-first search" tag.
+
+### 692 Top K Frequent Words
+
+Same as \# 347
+
+### 718 Maximum Length of Repeated Subarray
+
+Categorized under DP tag.
+
+### 720 Longest Word in Dictionary
+
+Param|Value
+:---:|:---
+Input|array of strings
+Output|longest(with smallest lexicographical order) word that could be build one character at a time. 
+Solution|sort by length then lexicographical order, then iterate through, use hashmap to record prefix
+TimeCost|O(nlogn)
+Percent|87
+CornorCase|None
+Tricks|None
 
 ### 771 Jewels and Stones
 

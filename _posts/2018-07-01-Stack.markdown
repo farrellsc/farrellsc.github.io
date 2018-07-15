@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "Stack"
-subtitle:   "LeetCode Review 2"
+subtitle:   "LeetCode Review 4"
 date:       2018-07-01 12:00:00
 author:     "Farrell"
 header-img: "img/bg3.jpg"
@@ -18,25 +18,16 @@ tags:
 ---
 ## 2. Methods
 
-### <span id="TreeTraverse">2.1 Binary Tree Traverse</span>
-Inorder Traverse:
-```java
-
-```
-
-Preorder Traverse:
-```java
-
-```
-
 ### <span id=""> </span>
 
 ---
 ## 3. Solutions
 
 ### 94 Binary Tree Inorder Traversal
+This is a Tree problem.
 
 ### 144 Binary Tree Preorder Traversal
+This is a Tree problem.
 
 ### 682 Baseball Game
 
