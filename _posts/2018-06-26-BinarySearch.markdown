@@ -8,7 +8,6 @@ header-img: "img/bg3.jpg"
 catalog: true
 tags:
     - Leetcode
-    - BinarySearch
 ---
 
 > \# 436 also has a faster DP solution; do \# 81 again
@@ -240,7 +239,7 @@ Param|Value
 :---:|:---
 Input|array
 Output|any local peak
-Solution|modified binary search, always find an increasing direction
+Solution|modified binary search, always find an increasing direction, since if head > head+1 it's also a peak
 TimeCost|O(logn)
 Percent|N/A
 CornorCase|None

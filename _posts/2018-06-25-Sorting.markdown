@@ -8,7 +8,6 @@ header-img: "img/bg3.jpg"
 catalog: true
 tags:
     - Leetcode
-    - Sorting
 ---
 
 > Problems under tag "Sorting" also implements other methods. Well...there isn't very much to talk about sorting. PQ needs a dig-in.

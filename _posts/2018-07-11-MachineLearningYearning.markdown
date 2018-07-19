@@ -7,7 +7,6 @@ author:     "Farrell"
 header-img: "img/bg3.jpg"
 catalog: true
 tags:
-    - Leetcode
     - Andrew Ng
     - AI
 ---
@@ -69,3 +68,43 @@ Negative|TN|FN
 1. Look at misclassified examples in dev set to start with. You can analysis multiple misclassification problems in parallel. Use a excel sheet to find the major problems in the model.
 2. It's not uncommon to tolerating mislabeled examples to start with, but if the portion of mislabeling accounts for a major portion of misclassification (such as 0.6% mislabeling in 2% error).
 3. When you have a large dev set, split it into two sets: eyeball set and blackbox set. Eyeball set (containing 20-100 mistakes) is for misclassification observation while blackbox set (size same as dev for granularity reasons) is for parameter tuning after you have extracted fixure patterns from eyeball set. This measurement would offset overfitting from eyeball set.
+
+### 5. Bias and Variance
+**Bias and Variance**:
+- Bias: Model's error rate on training set.
+- Variance: Difference of error rates between training set and dev set.
+
+**Error Breakdown**:
+1. Optimal Error Rate (Unavoidable Bias): Error rate of human labeled ground truth. Here you should be careful choosing **Human Level Performance** since different people/organizations differ valiantly on their performance on a certain task. Make sure your labelers are representative.
+2. Avoidable Bias: Difference between training error rate and optimal error rate.
+3. Variance: Difference between dev error and training error.
+
+**Basic Cures for Overfitting and Underfitting**:
+- overfitting = high variance: add data
+  - Add more training data
+  - Add regularization
+  - Add early stopping​ 
+  - Feature selection to decrease number/type of input features
+  - Decrease the model size
+- underfitting = high bias = high avoidable error:
+  - Increase model size:
+  - Modify input features based on insights from error analysis
+  - Reduce or eliminate regularization
+  - Modify model architecture
+
+### 6. Learning Curves
+![](/img/in-post/2018-07-11-MachineLearningYearning/Learning_curve.png)
+**What is a Learning Curve**: It plots your dev set error rate against size of your training set. You could also add human-level performance / optimal algorithm as desired performance. If when the curve flattens out the accuracy is still far from your desired performance you would know something is fishy. Learning curve gives a clear and convenient view of what situation your model is in. To plot learning curves before meddling with data/model is a good habit.
+
+**Use Learning Curve to observe**:
+![](/img/in-post/2018-07-11-MachineLearningYearning/lc_training_err.png)
+- Training Error Situation: training error usually increases as your data size increases. Since when data size is very small, overfitting is inevitable.
+![](/img/in-post/2018-07-11-MachineLearningYearning/lc_high_bias.png)
+- High Bias Situation: adding training error would help you see your bias, that stops your algorithm from achieving your desired performance. (then you should follow suggestions about high bias above)
+![](/img/in-post/2018-07-11-MachineLearningYearning/lc_high_variance.png)
+- High Variance Situation: similar to above
+![](/img/in-post/2018-07-11-MachineLearningYearning/lc_double_high.png)
+- Double High Situation: well...
+
+<!-- ### 7. Training and testing on different distributions -->
+

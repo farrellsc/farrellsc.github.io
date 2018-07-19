@@ -1,0 +1,284 @@
+---
+layout:     post
+title:      "Array"
+subtitle:   "LeetCode Review 7"
+date:       2018-07-16 12:00:00
+author:     "Farrell"
+header-img: "img/bg3.jpg"
+catalog: true
+tags:
+    - Leetcode
+---
+
+> acceptance 106 done by far; to do : 697, 729, 768, 795
+
+## 1. Array
+
+## 2. Methods
+
+### <span id="matrixRotation">2.1 Matrix Rotation</span>
+```java
+/*
+ * clockwise rotate
+ * first reverse up to down, then swap the symmetry 
+ * 1 2 3     7 8 9     7 4 1
+ * 4 5 6  => 4 5 6  => 8 5 2
+ * 7 8 9     1 2 3     9 6 3
+*/
+```
+
+## 3. Solutions
+
+### 27 Remove Element
+
+omitted
+
+### 35 Search Insert Position
+
+Categorized under "BinarySearch".
+
+### 39 Combination Sum
+
+Categorized under "BackTracing".
+
+### 48 Rotate Image
+
+Param|Value
+:---:|:---
+Input|matrix
+Output|in-place right-rotate the matrix by 90 degrees
+Solution|simple matrix rotation
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|[matrixRotation](#matrixRotation)
+
+### 53 Maximum Subarray
+
+Categorized under "Dynammic Programming".
+
+### 59 Spiral Matrix II
+
+brutal, omitted
+
+### 62 Unique Paths
+
+Categorized under "Dynammic programming" problems.
+
+### 64 Minimum Path Sum
+
+Categorized under "Dynammic programming" problems.
+
+### 66 Plus One
+
+omitted
+
+### 75 Sort Colors
+
+omitted
+
+### 78 Subsets
+
+Categorized under "BackTracing" problems.
+
+### 118 Pascal's Triangle
+
+omitted
+
+### 119 Pascal's Triangle II
+
+### 121 Best Time to Buy and Sell Stock
+
+Categorized under "Dynammic programming" problems.
+
+### 122 Best Time to Buy and Sell Stock II
+
+omitted
+
+### 153 Find Minimum in Rotated Sorted Array
+
+Categorized under "binary search".
+
+### 167 Two Sum II - Input array is sorted
+
+Categorized under "Two Pointers" tag.
+
+### 169 Majority Element
+
+maintain a count of majority, when it is negative, change majority element
+
+### 216 Combination Sum III
+
+Categorized under "Backtracing" tag.
+
+### 217 Contains Duplicate
+
+Categorized under "HashMap" tag.
+
+### 238 Product of Array Except Self
+
+The solution is so damn clever! This is actually DP. Go find solution in DP.
+
+### 268 Missing Number
+
+Calc a sum, then minus every element in array, (similar to \# 136 Single Number in 'HashMap')
+
+### 283 Move Zeroes
+
+omitted
+
+### 287 Find the Duplicate Number
+
+Categorized under "binary search" tag.
+
+### 380 Insert Delete GetRandom O(1)
+
+Categorized under "HashMap".
+
+### 442 Find All Duplicates in an Array
+
+same as [HashMap - \# 645](#)
+
+### 448 Find All Numbers Disappeared in an Array
+
+same as \# 442
+
+### 485 Max Consecutive Ones
+
+omitted
+
+### 495 Teemo Attacking
+
+omitted
+
+### 560 Subarray Sum Equals K
+
+Categorized under "Two Pointer".
+
+### 561 Array Partition I
+
+simple bucket sort
+
+### 565 Array Nesting
+
+This is actually a "HashMap" problem.
+
+### 566 Reshape the Matrix
+
+omitted
+
+### 611 Valid Triangle Number
+
+Categorized under "Two Pointers".
+
+### 621 Task Scheduler
+
+Param|Value
+:---:|:---
+Input|task array where elems are 'A'-'Z'; CPU period n
+Output|number of CPU cycles it takes to complete all tasks
+Solution|math: total period = max(task length, (n-1)*maxTask + maxTaskNum)
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|a bit math
+
+### 628 Maximum Product of Three Numbers
+
+Param|Value
+:---:|:---
+Input|array
+Output|max product of 3 numbers
+Solution|2 scenarios: 3 positive; 1 positive + 2 negative. Then return max(big1\*big2\*big3, big1\*small1\*small2)
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|None
+
+### 661 Image Smoother
+
+omitted
+
+### 667 Beautiful Arrangement II
+
+Param|Value
+:---:|:---
+Input|length n, diff k
+Output|Suppose this list is [a1, a2, a3, ... , an], then the list [|a1 - a2|, |a2 - a3|, |a3 - a4|, ... , |an-1 - an|] has exactly k distinct integers.
+Solution|pick elements from head and tail, head and tail...
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|just remember this
+
+### 674 Longest Continuous Increasing Subsequence
+
+Param|Value
+:---:|:---
+Input|array
+Output|length of Longest Continuous Increasing Subsequence
+Solution|simple iteration
+TimeCost|O(n)
+Percent|99
+CornorCase|remember to set max again after iteration is done
+Tricks|None
+
+simple, be aware of to set max again after iterating through the array
+
+### 695 Max Area of Island
+
+Categorized under "Depth-First Search"
+
+### 717 1-bit and 2-bit Characters
+
+omitted
+
+### 718 Maximum Length of Repeated Subarray
+
+Categorized under "Dynammic Programming".
+
+### 746 Min Cost Climbing Stairs
+
+Categorized under "Dynammic Programming".
+
+### 766 Toeplitz Matrix
+
+omitted
+
+### 747 Largest Number At Least Twice of Others
+
+omitted
+
+### 768 Max Chunks To Make Sorted II
+
+Param|Value
+:---:|:---
+Input|array
+Output|split array into chunks and sort them indivisually to get a sorted whole array. output max num of chunks
+Solution|greedy, find rightmost index for each group, when reaching rightmost, start a new group
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|greedy
+
+### 769 Max Chunks To Make Sorted
+
+Param|Value
+:---:|:---
+Input|array
+Output|split array into chunks and sort them indivisually to get a sorted whole array. output max num of chunks
+Solution|greedy, find rightmost index for each group, when reaching rightmost, start a new group
+TimeCost|O(n)
+Percent|100
+CornorCase|None
+Tricks|greedy
+
+### 795 Number of Subarrays with Bounded Maximum
+
+### 830 Positions of Large Groups
+
+omitted
+
+### 832 Flipping an Image
+
+simple O(n2)

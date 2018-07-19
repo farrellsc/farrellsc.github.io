@@ -8,7 +8,6 @@ header-img: "img/bg3.jpg"
 catalog: true
 tags:
     - Leetcode
-    - HashMap
 ---
 
 > todo: \# 30
@@ -311,6 +310,18 @@ Percent|87
 CornorCase|None
 Tricks|None
 
+### 565 Array Nesting
+
+Param|Value
+:---:|:---
+Input|array consisting of 0...len-1
+Output|longest loop within array
+Solution|use array itself as map, use +len to mark traveling routes. When reached a cycle front, add iterator to find other loops.
+TimeCost|O(n)
+Percent|98
+CornorCase|None
+Tricks|[ArrayAsMap](#ArrayAsMap); input as map
+
 ### 575 Distribute Candies
 
 Param|Value
@@ -400,3 +411,4 @@ Tricks|[ArrayAsMap](#ArrayAsMap)
 ### 811 Subdomain Visit Count
 
 omitted
+
