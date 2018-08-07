@@ -1,0 +1,209 @@
+---
+layout:     post
+title:      "Breadth-First Search"
+subtitle:   "LeetCode Review 14"
+date:       2018-08-03 12:00:00
+author:     "Farrell"
+header-img: "img/bg3.jpg"
+catalog: true
+tags:
+    - Leetcode
+---
+
+> TODO: 310, 417, 752
+
+## 1. <span id="standardBFS"> BFS </span>
+
+```java
+    public int bfs(HashMap<Integer, Employee> graph, int id) {
+        Queue<Employee> queue = new LinkedList<Employee>();
+        queue.add(graph.get(id));
+        int sum = 0;
+        while (!queue.isEmpty()) {
+            Employee cur = queue.poll();
+            sum += cur.importance;
+            for(int neighbor: cur.subordinates) queue.add(graph.get(neighbor));
+        }
+        return sum;
+    }
+```
+
+## 2. Methods
+
+### <span id="LevelTraversal"> 2.1 directed graph level order traversal </span>
+
+```java
+    while (!queue.isEmpty()) {
+        int queueSize = queue.size();
+        level++;
+
+        for(int j=0; j<queueSize; j++) {
+            int curNode = queue.poll();
+            for(int i=0; i<graph[curNode].length; i++) {
+                int neighbor = graph[curNode][i];
+                if (map[neighbor] == 0) {
+                    map[neighbor] = color;
+                    queue.add(neighbor);
+                }
+            }
+        }
+    }
+```
+
+### <span id="loopInGraph"> 2.2 Loop in Graph </span>
+
+Count in-degree, when in-degree == 0 add it to visited list. If after a whole iteration still there are some nodes with non-zero in-degrees, loop found.
+
+```java
+while (!queue.isEmpty()) {
+    int cur = queue.poll();
+    for(int neighbor: graph[cur]) {
+        if (--indegree[neighbor] == 0) {
+            indegree[neighbor] -- ;
+            queue.add(neighbor);
+            res.add(neighbor);
+        }
+    }
+}
+```
+
+## 3. Solutions
+
+### 101 Symmetric Tree
+Categorized under "Tree".
+
+### 102 Binary Tree Level Order Traversal
+
+Param|Value
+:---:|:---
+Input|tree root
+Output|list<list> level order traversal
+Solution|bfs, use queue to store a treenode level; each iteration clear queue and add next level
+TimeCost|O(n)
+Percent|85
+CornorCase|None
+Tricks|[LevelTraversal](#LevelTraversal)
+
+### 103 Binary Tree Zigzag Level Order Traversal
+
+same as \# 102
+
+### 107 Binary Tree Level Order Traversal II
+Categorized under "Tree".
+
+### 111 Minimum Depth of Binary Tree
+Categorized under "Tree".
+
+### 127 Word Ladder
+
+Param|Value
+:---:|:---
+Input|startword, endword, wordlist
+Output|how many steps it take to transform startword to endword; each step only one char can be changed
+Solution|level traversal bfs
+TimeCost|O(n)
+Percent|60
+CornorCase|None
+Tricks|[LevelTraversal](#LevelTraversal)
+
+### 130 Surrounded Regions
+same as DFS solution
+
+### 133 Clone Graph
+
+Param|Value
+:---:|:---
+Input|graph root
+Output|copied graph root
+Solution|bfs
+TimeCost|NA
+Percent|NA
+CornorCase|None
+Tricks|[standardBFS](#standardBFS)
+
+### 199 Binary Tree Right Side View
+Categorized under "Tree".
+
+### 200 Number of Islands
+
+Param|Value
+:---:|:---
+Input|map of 0 and 1
+Output|island number
+Solution|bfs
+TimeCost|O(n)
+Percent|32
+CornorCase|None
+Tricks|[standardBFS](#standardBFS)
+
+### 210 Course Schedule II
+
+Param|Value
+:---:|:---
+Input|edges as course prerequisites
+Output|course order
+Solution|bfs, use indegree to add visited map
+TimeCost|O(n)
+Percent|92
+CornorCase|None
+Tricks|[standardBFS](#standardBFS), [loopInGraph](#loopInGraph)
+
+### 279 Perfect Squares
+Categorized under "DP"
+
+### 513 Find Bottom Left Tree Value
+Categorized under "Tree".
+
+### 515 Find Largest Value in Each Tree Row
+Categorized under "Tree".
+
+### 542 01 Matrix
+
+Param|Value
+:---:|:---
+Input|matrix with 0 and 1
+Output|the distance of the nearest 0 for each cell
+Solution|standard bfs, layer by layer
+TimeCost|O(n)
+Percent|50
+CornorCase|None
+Tricks|[standardBFS](#standardBFS)
+
+### 690 Employee Importance
+
+Param|Value
+:---:|:---
+Input|employee subordinate graph; starting id
+Output|sum of importance of all subordinates of starting id
+Solution|bfs
+TimeCost|NA
+Percent|NA
+CornorCase|None
+Tricks|[standardBFS](#standardBFS)
+
+### 743 <span id="ndt"> Network Delay Time </span>
+
+Param|Value
+:---:|:---
+Input|network graph, starting point
+Output|minimum time when info reaches all points
+Solution|bfs
+TimeCost|NA
+Percent|NA
+CornorCase|None
+Tricks|[standardBFS](#standardBFS)
+
+### 785 Is Graph Bipartite?
+
+Param|Value
+:---:|:---
+Input|graph
+Output|whether the graph is bipartite
+Solution|use bfs to color nodes
+TimeCost|O(n)
+Percent|60
+CornorCase|None
+Tricks|[LevelTraversal](#LevelTraversal)
+
+### 787 Cheapest Flights Within K Stops
+[LevelTraversal](#LevelTraversal) with [Network Delay Time](#ndt)

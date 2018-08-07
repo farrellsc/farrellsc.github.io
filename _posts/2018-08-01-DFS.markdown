@@ -1,0 +1,381 @@
+---
+layout:     post
+title:      "Depth-First Search"
+subtitle:   "LeetCode Review 13"
+date:       2018-08-01 12:00:00
+author:     "Farrell"
+header-img: "img/bg3.jpg"
+catalog: true
+tags:
+    - Leetcode
+---
+
+## 1. DFS
+
+DFS is an iteration method through a graph. It is splitted into two specific methods: [preorder DFS](#preDFS) and [postorder DFS](#postDFS). Tree Iteration is a special caes of DFS. DFS solutions has a roughly fixed time cost of O(n), which in preDFS only involves cost fluctuations caused by optimizations, and in postDFS also involves repeated visits, so in postDFS cache matrix is important to optimization. Also you should be very careful on the original matrix. Modifying value matrix in-place would most possibly cause problems. Use visited matrix or a new cache matrix to record values and status of nodes instead.  
+
+When utilizing post DFS it must be guaranteed that the resulting status of a region does not depend on the status of only a few nodes. When a node is surronded by "unknown status nodes" the DFS pointer would be locked in a "nobody knows what" region.  
+
+Below is a DFS template. Notably key elements are the original matrix and the visited matrix which records status (and sometimes caches values).  
+```java
+    public something solution(int[][] matrix) {
+        // cornor case: empty input
+        if (matrix.length == 0 || matrix[0].length == 0) return res;
+        // build visited map
+        int[][][] visited = new int[matrix.length][matrix[0].length][3];
+        // iterate through matrix, jump over visited positions
+        for(int i=0; i<matrix.length; i++) {
+            for(int j=0; j<matrix[0].length; j++) {
+                if (visited[i][j][2] == 0) 
+                    dfs(matrix, visited, i, j, res);
+            }
+        }
+        return something
+    }
+    
+    public int[] dfs(int[][] matrix, int[][] visited, int i, int j, ArrayList<int[]> res) {
+        // if visited, jump over and return status
+        if (visited[i][j]) return visited[i][j];
+        // update status
+        visited[i][j] = 1;
+        
+        if (preorder) {
+            // 1. preorder DFS
+            do_something()
+            for(one: neighbors) 
+                dfs(one)
+        } else if (postorder) {
+            // 2. postorder DFS
+            for(one: neighbors)
+                status.add(one)
+            do_something(status)
+        }
+
+        // return status
+        return visited[i][j];
+    }
+```
+
+When solving problems with DFS, first decide whether you should use preDFS or you should use postDFS (which means to decide dependence between a node and its neighbors). Then think of the status and values you will need to record, assign suitable visited matrix / cache matrix to do that. Finally think of dfs recursions and returned status. If you found that the solution could be swamped in a ["Don't know" situation](#IdontKnow), try use DP or rule-out DFS instead.  
+
+## 2. Methods
+
+###  2.1 Recursive DFS </span>
+Recursively searching through a map, modifying map values in the process.
+<span id="preDFS">**Preorder DFS**</span>
+The status of neighboring nodes depend on current node. Update current node first, DFS to neighboring nodes next.  
+```java
+    public int preorderDFS(int[][] grid, int x, int y, int i, int j) {
+        if (i < 0 || i >= x || j < 0 || j >= y) return 0;
+        if (grid[i][j] == 0) return 0;
+        grid[i][j] = 0;
+        int newVal = 1 + helper(grid, x, y, i+1, j) + helper(grid, x, y, i-1, j) + helper(grid, x, y, i, j+1) + helper(grid, x, y, i, j-1);
+        return newVal;
+    }
+```
+  
+<span id="postDFS">**Postorder DFS**</span>
+The status of the current node depends on neighboring nodes. DFS to neighboring nodes first to retrieve status, then update current node.
+```java
+    public void postorderDFS(int[][] grid, int x, int y, int i, int j) {
+        if (i < 0 || i >= x || j < 0 || j >= y) return 0;
+        if (grid[i][j] == 0) return 0;
+        grid[i][j] = do_something()
+        helper(grid, x, y, i+1, j);
+        helper(grid, x, y, i-1, j);
+        helper(grid, x, y, i, j+1);
+        helper(grid, x, y, i, j-1);
+    }
+```
+  
+### <span id="mapDFS"> 2.2 Map DFS </span>
+Map DFS is DFS performed on 2D matrix. Here we use a 2D matrix as visit map whose size is the same as value map. We simply use up, left, down, right, four instructions as recursive searching code.
+
+### <span id="graphDFS"> 2.2 Graph DFS </span>
+Graph DFS is DFS performed on abstract Graphs, mostly represented by a set of nodes and edges. When doing so we use hashmap as value map and visit map, and we use loops to perform recursive search.
+
+### <span id="loopInGraph"> 2.3 Loop in Graph </span>
+DFS over graph, color the nodes by "not-reached-yet", "iterating" and "visited". If two neighboring nodes are both "iterating" then there is a loop.
+```java
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        List[] graph = new ArrayList[numCourses];
+        for (int i = 0; i < numCourses; i++) {
+            graph[i] = new ArrayList<Integer>();
+        }
+        for (int[] edge : prerequisites) {
+            graph[edge[1]].add(edge[0]);
+        }
+        int[] color = new int[numCourses];
+        for (int i = 0; i < numCourses; i++) {
+            if (color[i] != 2 && dfs(graph, i, color)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private boolean dfs(List[] graph, int s, int[] color) {
+        color[s] = 1;
+        for (int i = 0; i < graph[s].size(); i++) {
+            int neighbor = (int)graph[s].get(i);
+            if (color[neighbor] == 2) {
+                continue;
+            }
+            if (color[neighbor] == 1) {
+                return true;
+            }
+            if (color[neighbor] == 0 && dfs(graph, neighbor, color)) {
+                return true;
+            }
+        } 
+        color[s] = 2;
+        return false;
+    }
+```
+
+### <span id="weightUpdate"> 2.4 Weight Update </span>
+Update graph until edge weights are minimized.
+
+### <span id="IdontKnow"> 2.5 Don't Know Situation </span>
+When a whole region relies on status of very few nodes within. It could be highly possible that dfs never reaches those important nodes first, with the dfs pointer locked within "don't know" nodes.
+
+## 3. Solutions
+
+### 98 Validate Binary Search Tree
+Categorized under "Tree".
+
+### 100 Same Tree
+Categorized under "Tree".
+
+### 101 Symmetric Tree
+Categorized under "Tree".
+
+### 104 Maximum Depth of Binary Tree
+Categorized under "Tree".
+
+### 105 Construct Binary Tree from Preorder and Inorder Traversal
+Categorized under "Tree".
+
+### 106 Construct Binary Tree from Inorder and Postorder Traversal
+Categorized under "Tree".
+
+### 108 Convert Sorted Array to Binary Search Tree
+Categorized under "Tree".
+
+### 109 Convert Sorted List to Binary Search Tree
+Categorized under "Linked List".
+
+### 110 Balanced Binary Tree
+Categorized under "Tree".
+
+### 111 Minimum Depth of Binary Tree
+Categorized under "Tree".
+
+### 112 Path Sum
+Categorized under "Tree".
+
+### 113 Path Sum II
+Categorized under "Tree".
+
+### 114 Flatten Binary Tree to Linked List
+Categorized under "Tree".
+
+### 116 Populating Next Right Pointers in Each Node
+Categorized under "Tree".
+
+### 117 Populating Next Right Pointers in Each Node II
+Categorized under "Tree".
+
+### 129 Sum Root to Leaf Numbers
+Categorized under "Tree".
+
+### 130 Surrounded Region
+
+Param|Value
+:---:|:---
+Input|matrix composed of "O" and "X"
+Output|"O" regions that are not connected to boarder are flipped to "X"s
+Solution|dfs from boarder of matrix, mark all "O" on boarders; flip unmarked "O"s. This is like a rule-out method of DFS.
+TimeCost|O(mn), m is node and n is edge
+Percent|NA
+CornorCase|None
+Tricks|[preDFS](#preDFS), [graphDFS](#graphDFS), [IdontKnow](#IdontKnow)
+
+### 133 Clone Graph
+
+Param|Value
+:---:|:---
+Input|graph root
+Output|cloned graph
+Solution|visit map as node list; dfs over neighbors
+TimeCost|O(mn), m is node and n is edge
+Percent|NA
+CornorCase|None
+Tricks|[preDFS](#preDFS), [graphDFS](#graphDFS)
+
+### 199 Binary Tree Right Side View
+Categorized under "Tree".
+
+### 200 Number of Islands
+same as \# 695
+
+### 207 Course Schedule
+
+Param|Value
+:---:|:---
+Input|edges as course prerequisites
+Output|whether there is loop in graph
+Solution|construct graph; dfs; whether a node has been traversed 2 times
+TimeCost|O(n)
+Percent|96
+CornorCase|None
+Tricks|[preDFS](#preDFS), [graphDFS](#graphDFS), [loopInGraph](#loopInGraph)
+
+### 210 Course Schedule II
+
+Param|Value
+:---:|:---
+Input|edges as course prerequisites
+Output|course order
+Solution|dfs order in \# 207
+TimeCost|O(n)
+Percent|NA
+CornorCase|None
+Tricks|[preDFS](#preDFS), [graphDFS](#graphDFS), [loopInGraph](#loopInGraph)
+
+### 257 Binary Tree Paths
+Categorized under "Tree".
+
+### 329 Longest Increasing Path in a Matrix
+
+Param|Value
+:---:|:---
+Input|matrix
+Output|longest increasing path
+Solution|postorder dfs traversal, cache longest path at each node
+TimeCost|O(n)
+Percent|NA
+CornorCase|None
+Tricks|[postDFS](#postDFS), [graphDFS](#graphDFS)
+
+### 394 Decode String
+Categorized under "Stack".
+
+### 417 Pacific Atlantic Water Flow
+Categorized under "DP".  
+This doesn't work with DFS. Because information flow is too narrow. When a node is found completely surrounded with "unknown status nodes" it goes wrong. 
+[IdontKnow](#IdontKnow)
+
+### 491 Increasing Subsequences
+Categorized under "BackTracing"
+
+### 494 Target Sum
+Categorized under "DP"
+
+### 513 Find Bottom Left Tree Value
+Categorized under "Tree".
+
+### 515 Find Largest Value in Each Tree Row
+Categorized under "Tree".
+
+### 529 Minesweeper
+
+Param|Value
+:---:|:---
+Input|matrix, click position
+Output|revealed map after click
+Solution|Recursive DFS. 
+TimeCost|O(mn)
+Percent|NA
+CornorCase|None
+Tricks|[postDFS](#postDFS), [mapDFS](#mapDFS)
+
+### 542 01 Matrix
+
+Param|Value
+:---:|:---
+Input|01 matrix
+Output|distance-to-zero matrix
+Solution|dfs over graph until values do not change / DP
+TimeCost|O(n)
+Percent|NA
+CornorCase|
+Tricks|[recursiveDFS](#recursiveDFS), [graphDFS](#mapDFS), [weightUpdate](#weightUpdate)
+
+### 547 Friend Circles
+
+Param|Value
+:---:|:---
+Input|friend graph
+Output|friend circles
+Solution|Recursive DFS. 
+TimeCost|O(n2)
+Percent|NA
+CornorCase|None
+Tricks|[preDFS](#preDFS), [arrDFS](#arrDFS)
+
+### 638 Shopping Offers
+Categorized under "DP"
+
+### 690 Employee Importance
+
+Param|Value
+:---:|:---
+Input|employees: importance, subordinates, starting id
+Output|importance sum of all recursive subordinates of starting employee
+Solution|Recursive DFS. 
+TimeCost|O(n)
+Percent|NA
+CornorCase|None
+Tricks|[preDFS](#preDFS), [arrDFS](#arrDFS)
+
+### 695 Max Area of Island
+
+Param|Value
+:---:|:---
+Input|matrix
+Output|max area of an island in the matrix
+Solution|Recursive DFS. 
+TimeCost|O(mn)
+Percent|25
+CornorCase|None
+Tricks|[postDFS](#postDFS), [mapDFS](#mapDFS)
+
+### 733 Flood Fill
+
+Param|Value
+:---:|:---
+Input|matrix, x, y, newColor
+Output|matrix after flood filling (x,y) with newcolor
+Solution|Recursive DFS. 
+TimeCost|O(mn)
+Percent|35
+CornorCase|newcolor == oldcolor
+Tricks|[postDFS](#postDFS), [mapDFS](#mapDFS)
+
+### 743 Network Delay Time
+
+Param|Value
+:---:|:---
+Input|edge list by node (and weight), starting node
+Output|network delay
+Solution|dfs over graph, find max delay
+TimeCost|O(n)
+Percent|100
+CornorCase|
+Tricks|[preDFS](#preDFS), [graphDFS](#graphDFS), [weightUpdate](#weightUpdate)
+
+### 785 Is Graph Bipartite?
+
+Param|Value
+:---:|:---
+Input|edge list by nodes
+Output|whether graph can be bipartited (for each edge the two nodes belong to two biparties)
+Solution|color the nodes by 1 and -1, if encounter an overlap, return false
+TimeCost|O(mn)
+Percent|100
+CornorCase|
+Tricks|[preDFS](#preDFS), [graphDFS](#graphDFS)
+
+### 841 Keys and Rooms
+same as \# 690

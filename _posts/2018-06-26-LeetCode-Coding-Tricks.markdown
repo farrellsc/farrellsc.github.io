@@ -74,6 +74,9 @@ When counting fixe-sized elements such as characters, arrays are much faster tha
 ### <span id="StringBuilderNotString"> 8 StringBuilder is faster than String</span>
 much faster
 
+### <span id="CharArrayNotSB"> 8.1 CharArray is faster than StringBuilder</span>
+much faster again...
+
 ### <span id="arrayLengthCost"> 9 ArrayList length func cost</span>
 it costs a lot
 
